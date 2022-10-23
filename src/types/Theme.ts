@@ -2,7 +2,7 @@ export type ColorGroups = 'accent' | 'gray' | 'text' | 'background' | 'border'
 
 export type Color = string | [string, string]
 
-export interface Colors extends Record<ColorGroups, Record<keyof ColorGroups, Color>> {
+export interface Colors extends Record<ColorGroups, Record<string, Color>> {
   accent: {
     primary: Color
     secondary: Color

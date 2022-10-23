@@ -8,13 +8,13 @@
     "development": "vue-tsc --noEmit && vite build --mode development",
     "staging": "vue-tsc --noEmit && vite build --mode staging",
     "production": "vue-tsc --noEmit && vite build --mode production",
-    "build": "vue-tsc --emitDeclarationOnly && vite build && cp package.json dist",
+    "build": "vite build && vue-tsc --emitDeclarationOnly && cp package.json dist",
     "lint": "eslint --ext .ts,.vue --ignore-path .gitignore src"
   },
   "exports": {
     ".": {
       "import": "./index.es.js",
-      "types": "./index.d.ts"
+      "types": "./src/index.d.ts"
     },
     "./style.css": {
       "import": "./style.css"
@@ -22,7 +22,7 @@
   },
   "main": "index.es.js",
   "module": "index.es.js",
-  "types": "index.d.ts",
+  "types": "./src/index.d.ts",
   "dependencies": {
     "vue": "^3.2.37",
     "vue-router": "^4.1.5"
