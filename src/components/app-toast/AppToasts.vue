@@ -1,8 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-
-import AppToast from './AppToast.vue'
-
 import { useToasts } from '@/composables'
 
 enum Transition {

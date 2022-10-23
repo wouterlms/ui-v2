@@ -9,7 +9,7 @@ import {
 
 import { colors } from '@/theme'
 
-interface Props extends BaseProps {
+export interface Props extends BaseProps {
   accentColor?: string
 }
 

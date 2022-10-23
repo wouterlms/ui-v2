@@ -1,11 +1,3 @@
-import {
-  computed,
-  h,
-  ref,
-  toRef,
-  useAttrs,
-} from 'vue'
-
 import { useVModel } from '@wouterlms/composables'
 import { usePropsWithDefaults } from '@/composables'
 

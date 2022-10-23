@@ -78,10 +78,13 @@ const colors: Colors = {
       '#f5f7fa',
       '#1f2024',
     ],
-
     switch: [
       '#dddfe6',
       '#39383c',
+    ],
+    popover: [
+      '#ffffff',
+      '#000',
     ],
   },
 

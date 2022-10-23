@@ -1,166 +1,71 @@
 <script setup lang="ts">
-import type {
-  Middleware,
-  Placement,
-} from '@floating-ui/dom'
+import type { Placement } from '@floating-ui/dom'
 
 import {
-  arrow,
-  autoUpdate,
-  computePosition,
-  flip,
-  offset,
-  shift,
-  size,
-} from '@floating-ui/dom'
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+} from '@headlessui/vue'
 
-import { clickOutside as vClickOutside } from '@/directives'
+import type { Rounded } from '@/types'
 
+import { useBorderRadius, useFloatingUI } from '@/composables'
 import { colors } from '@/theme'
 
-interface Props {
-  show: boolean
+export interface Props {
   position?: Placement
-  offset?: number
   margin?: number
+  offset?: number
   containerPadding?: number
-  zIndex?: number
   inheritWidth?: boolean
   showArrow?: boolean
-  teleport?: boolean
-  backgroundColor?: string
-
   container?: HTMLElement
+
+  rounded?: Rounded
+  backgroundColor?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   position: 'bottom',
-  offset: 0,
   margin: 0,
+  offset: 0,
   containerPadding: 0,
-  zIndex: 2,
   inheritWidth: false,
   showArrow: true,
-  teleport: false,
-  backgroundColor: undefined,
-
   container: undefined,
+
+  rounded: 'default',
+  backgroundColor: undefined,
 })
 
-const emit = defineEmits<{ (event: 'clickOutside', e: MouseEvent): void }>()
+const popover = ref<InstanceType<typeof Popover> | null>(null)
+const popoverPanel = ref<InstanceType<typeof PopoverPanel> | null>(null)
+const arrow = ref<HTMLElement | null>(null)
 
-enum TooltipState {
-  INITIAL,
-  ENTERING,
-  VISIBLE,
-  LEAVING,
-}
-
-const emptyEl = ref()
-const tooltipEl = ref()
-const parentEl = ref()
-const arrowEl = ref()
-
-const state = ref(TooltipState.INITIAL)
+const {
+  positionX,
+  positionY,
+  arrowPositionX,
+  arrowPositionY,
+  actualPosition,
+  width,
+} = useFloatingUI({
+  floatingEl: computed(() => popoverPanel.value?.$el ?? null),
+  referenceEl: computed(() => popover.value?.$el ?? null),
+  parentEl: computed(() => popover.value?.$el.parentElement ?? null),
+  arrowEl: computed(() => arrow.value ?? null),
+  options: reactive({
+    margin: props.margin,
+    offset: props.offset,
+    position: props.position,
+    container: props.container,
+    containerPadding: props.containerPadding,
+  }),
+})
 
 const computedBackgroundColor = computed(() => (
-  props.backgroundColor ?? colors.value.background.primary
+  props.backgroundColor ?? colors.value.background.popover
 ))
-
-const computedZIndex = computed(() => {
-  if (state.value === TooltipState.ENTERING)
-    return props.zIndex + 1
-
-  if (state.value === TooltipState.LEAVING)
-    return props.zIndex + 2
-
-  return props.zIndex
-})
-
-let cleanup: (() => void) | null = null
-
-const position = reactive({
-  x: 0,
-  y: 0,
-})
-
-const arrowPosition = reactive<{ x: number | null; y: number | null }>({
-  x: 0,
-  y: 0,
-})
-
-const actualPosition = ref<'top' | 'bottom' | 'left' | 'right'>('bottom')
-
-const width = ref<number>()
-
-const isHorizontalPlacement = computed(() => (
-  [
-    'top',
-    'bottom',
-  ].includes(props.position)
-))
-
-const updatePosition = async (): Promise<void> => {
-  const middleware: Middleware[] = [
-    offset({
-      mainAxis: isHorizontalPlacement.value ? props.margin : props.offset,
-      crossAxis: isHorizontalPlacement.value ? props.offset : props.margin,
-    }),
-  ]
-
-  if (props.container !== undefined) {
-    middleware.push(shift({
-      boundary: props.container,
-      crossAxis: true,
-      padding: props.containerPadding,
-    }))
-  }
-
-  middleware.push(
-    flip(),
-    arrow({
-      element: arrowEl.value,
-    }),
-    size({
-      apply({ availableWidth }) {
-        width.value = availableWidth // TODO: check
-      },
-    }),
-  )
-
-  const {
-    x,
-    y,
-    middlewareData: { arrow: _arrowPosition },
-    placement,
-  } = await computePosition(parentEl.value, tooltipEl.value, {
-    middleware,
-    placement: props.position,
-  })
-
-  actualPosition.value = {
-    top: 'bottom',
-    right: 'left',
-    bottom: 'top',
-    left: 'right',
-  }[placement.split('-')[0]] as typeof actualPosition.value
-
-  position.x = x
-  position.y = y
-
-  arrowPosition.x = _arrowPosition?.x ?? null
-  arrowPosition.y = _arrowPosition?.y ?? null
-}
-
-onMounted(() => {
-  parentEl.value = emptyEl.value.parentElement
-
-  cleanup = autoUpdate(parentEl.value, tooltipEl.value, updatePosition)
-})
-
-onBeforeUnmount(() => {
-  cleanup?.()
-})
 </script>
 
 <script lang="ts">
@@ -170,39 +75,42 @@ export default {
 </script>
 
 <template>
-  <div ref="emptyEl" />
-
-  <Teleport
-    to="body"
-    :disabled="!teleport"
+  <Popover
+    v-slot="{ close }"
+    ref="popover"
   >
+    <PopoverButton>
+      <slot :close="close" />
+    </PopoverButton>
+
     <Transition
-      name="tooltip-transition"
-      @before-enter="state = TooltipState.ENTERING"
-      @after-enter="state = TooltipState.VISIBLE"
-      @before-leave="state = TooltipState.LEAVING"
+      enter-from-class="opacity-0"
+      leave-to-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-from-class="opacity-100"
+      enter-active-class="duration-100 transition-opacity"
+      leave-active-class="duration-100 transition-opacity"
     >
-      <div
-        v-show="show"
+      <PopoverPanel
         v-bind="$attrs"
-        ref="tooltipEl"
-        v-click-outside="(e: MouseEvent) => emit('clickOutside', e)"
+        ref="popoverPanel"
         :style="{
-          backgroundColor: computedBackgroundColor,
-          zIndex: computedZIndex,
-          top: `${position.y}px`,
-          left: `${position.x}px`,
+          position: actualPosition,
+          top: `${positionY}px`,
+          left: `${positionX}px`,
           width: inheritWidth ? `${width}px` : undefined,
+          backgroundColor: computedBackgroundColor,
+          borderRadius: useBorderRadius(),
         }"
-        class="absolute rounded shadow-primary"
+        class="absolute shadow-primary"
       >
         <div
           v-show="showArrow"
-          ref="arrowEl"
+          ref="arrow"
           :style="{
             backgroundColor: computedBackgroundColor,
-            left: arrowPosition.x !== null ? `${arrowPosition.x}px` : '',
-            top: arrowPosition.y !== null ? `${arrowPosition.y}px` : '',
+            left: arrowPositionX !== null ? `${arrowPositionX}px` : '',
+            top: arrowPositionY !== null ? `${arrowPositionY}px` : '',
             right: '',
             bottom: '',
             [actualPosition]: '-4px',
@@ -213,29 +121,16 @@ export default {
         <div
           :style="{
             backgroundColor: computedBackgroundColor,
+            borderRadius: useBorderRadius(),
           }"
-          class="h-full left-0 overflow-hidden relative rounded top-0 w-full z-[1]"
+          class="h-full left-0 overflow-hidden relative top-0 w-full z-[1]"
         >
-          <slot />
+          <slot
+            name="popover"
+            :close="close"
+          />
         </div>
-      </div>
+      </PopoverPanel>
     </Transition>
-  </Teleport>
+  </Popover>
 </template>
-
-<style scoped lang="scss">
-.tooltip-transition {
-  &-enter-active,
-  &-leave-active {
-    transition:
-      0.15s transform,
-      0.15s opacity;
-  }
-
-  &-enter-from,
-  &-leave-to {
-    transform: scale(0.98);
-    opacity: 0;
-  }
-}
-</style>

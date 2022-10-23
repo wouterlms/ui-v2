@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { FocusTrap } from 'focus-trap-vue'
 
-interface Props {
+export interface Props {
   active: boolean
 }
 

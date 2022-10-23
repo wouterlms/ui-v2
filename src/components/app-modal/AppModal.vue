@@ -1,19 +1,17 @@
 <script setup lang="ts">
 import { useIsMobileDevice } from '@wouterlms/composables'
 
-import AppFocusable from '../app-focusable/AppFocusable.vue'
-import AppIcon from '../app-icon/AppIcon.vue'
 import AppModalOverlay from './AppModalOverlay.vue'
 
 import type { Props as BaseProps } from './useAppModal'
 import useAppModal from './useAppModal'
+import type { Rounded } from '@/types'
 
 import { useBorderRadius } from '@/composables'
 
-import { Rounded } from '@/enums'
 import { Icon } from '@/icons'
 
-interface Props extends BaseProps {
+export interface Props extends BaseProps {
   /**
    * Show close button in top right corner
    */
@@ -39,7 +37,7 @@ const props = withDefaults(defineProps<Props>(), {
   showCloseButton: true,
   closeOnClickOutside: true,
   blur: false,
-  rounded: Rounded.DEFAULT,
+  rounded: 'default',
 })
 
 const {

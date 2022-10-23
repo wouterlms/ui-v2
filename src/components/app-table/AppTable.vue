@@ -1,11 +1,15 @@
 <script setup lang="ts">
-interface Props {
+export interface Props {
   grid: string
+  border?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {})
+const props = withDefaults(defineProps<Props>(), {
+  border: true,
+})
 
 provide('grid', props.grid)
+provide('border', props.border)
 </script>
 
 <script lang="ts">

@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import AppIcon from '../app-icon/AppIcon.vue'
-import AppButton from '../app-button/AppButton.vue'
-import AppFocusable from '../app-focusable/AppFocusable.vue'
-
 import { Icon } from '@/icons'
 import { colors } from '@/theme'
-import { ButtonVariant } from '@/enums'
 
-interface Props {
+export interface Props {
   accentColor?: string
   icon?: string
 }
@@ -64,8 +59,8 @@ const computedIcon = computed(() => props.icon ?? Icon.CORE_TICK_FILLED)
 
         <AppButton
           :icon-left="Icon.CORE_CLOSE_BOLD"
-          :variant="ButtonVariant.GHOST"
           :accent-color="colors.text.tertiary"
+          variant="ghost"
           padding="0.3em"
           icon-size="0.5em"
           @click="emit('close')"

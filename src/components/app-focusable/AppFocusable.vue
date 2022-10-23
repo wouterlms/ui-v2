@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { useIsKeyboardMode } from '@/composables'
 
-interface Props {
-  is?: string | Object
+export interface Props {
+  as?: string | Object
 }
 
 withDefaults(defineProps<Props>(), {
-  is: 'button',
+  as: 'button',
 })
 
 const isKeyboardMode = useIsKeyboardMode()
@@ -14,7 +14,7 @@ const isKeyboardMode = useIsKeyboardMode()
 
 <template>
   <Component
-    :is="is"
+    :is="as"
     :class="{
       'focus:ring': isKeyboardMode,
     }"

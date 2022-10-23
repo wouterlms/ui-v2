@@ -1,10 +1,10 @@
 import { watchEffect } from 'vue'
 
+import type { ColorConfig } from '../types'
 import { extendColors, setCssVariables } from './utils'
 
 import { icons } from './icons'
 import { useDarkMode } from '@/composables'
-import type { ColorConfig } from '@/types'
 
 interface Options {
   enableDarkMode: boolean

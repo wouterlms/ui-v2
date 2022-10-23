@@ -6,8 +6,23 @@ createTheme({
   icons: {},
   enableDarkMode: true,
 })
+
+const value = ref(null)
 </script>
 
 <template>
-  <div>app</div>
+  {{ value }}
+  <div class="p-64 w-full">
+    <div>
+      <FormSelect v-model="value">
+        FormSelect
+      </FormSelect>
+    </div>
+  </div>
 </template>
+
+<style>
+body {
+  @apply bg-primary;
+}
+</style>

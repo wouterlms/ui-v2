@@ -2,7 +2,7 @@
 import { icons as themeIcons } from '@/icons'
 import { icons as userIcons } from '@/theme'
 
-interface Props {
+export interface Props {
   /**
    * Icon
    */

@@ -1,28 +1,27 @@
 <script setup lang="ts">
-import type { Ref } from 'vue'
-
-interface Props {
-  is?: string
+export interface Props {
+  as?: string
 }
 
 withDefaults(defineProps<Props>(), {
-  is: 'div',
+  as: 'div',
 })
 
-const grid = inject('grid') as Ref<string>
+const grid = inject('grid') as string
+const border = inject('border') as boolean
 </script>
 
 <template>
   <Component
-    :is="is"
+    :is="as"
+    :class="{
+      'border-b border-solid border-tertiary bg-secondary': border,
+    }"
     :style="{
       'grid-template-columns': grid,
     }"
-    class="bg-secondary
-      border-b
-      border-solid
-      border-tertiary
-      flex-shrink-0
+    class="flex-shrink-0
+      font-medium
       gap-4
       grid
       p-4

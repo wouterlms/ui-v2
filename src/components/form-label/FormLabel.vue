@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { colors } from '@/theme'
 
-interface Props {
-  is?: string
+export interface Props {
+  as?: string
 
   /**
    * Label text
@@ -26,7 +26,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  is: 'label',
+  as: 'label',
   label: undefined,
   error: undefined,
   position: 'top',
@@ -42,7 +42,7 @@ const computedColor = computed(() => (
 
 <template>
   <Component
-    :is="is"
+    :is="as"
     :class="[
       position === 'bottom' ? 'flex-col-reverse' : 'flex-col',
     ]"

@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@antfu/eslint-config': ^0.27.0
   '@floating-ui/dom': ^1.0.2
+  '@headlessui/vue': ^1.7.3
   '@intlify/vite-plugin-vue-i18n': ^6.0.2
   '@tailwindcss/line-clamp': ^0.4.2
   '@vitejs/plugin-vue': ^3.1.0
@@ -26,7 +27,6 @@ specifiers:
   focus-trap-vue: ^3.3.1
   postcss: ^8.4.16
   putout: ^27.8.0
-  rollup-plugin-dts: ^4.2.3
   sass: ^1.55.0
   tailwindcss: ^3.1.8
   tailwindcss-theme-swapper: ^0.6.2
@@ -47,6 +47,7 @@ dependencies:
 devDependencies:
   '@antfu/eslint-config': 0.27.0_abkyjrvwkq25uefwggm6hc3u2a
   '@floating-ui/dom': registry.npmjs.org/@floating-ui/dom/1.0.2
+  '@headlessui/vue': registry.npmjs.org/@headlessui/vue/1.7.3_vue@3.2.39
   '@intlify/vite-plugin-vue-i18n': registry.npmjs.org/@intlify/vite-plugin-vue-i18n/6.0.2_vite@3.1.0
   '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.1.8
   '@vitejs/plugin-vue': 3.1.0_vite@3.1.0+vue@3.2.39
@@ -70,7 +71,6 @@ devDependencies:
   focus-trap-vue: registry.npmjs.org/focus-trap-vue/3.3.1_rac5a6ga4i2xxu222usnhdigri
   postcss: 8.4.16
   putout: 27.13.0
-  rollup-plugin-dts: registry.npmjs.org/rollup-plugin-dts/4.2.3_typescript@4.8.4
   sass: registry.npmjs.org/sass/1.55.0
   tailwindcss: 3.1.8_postcss@8.4.16
   tailwindcss-theme-swapper: 0.6.2
@@ -6135,6 +6135,18 @@ packages:
       '@floating-ui/core': registry.npmjs.org/@floating-ui/core/1.0.1
     dev: true
 
+  registry.npmjs.org/@headlessui/vue/1.7.3_vue@3.2.39:
+    resolution: {integrity: sha512-Is4iakKts9u9E0+jEZNzoJpBjwq2SamwEIoEl2RlyYSu6Zco536GsPXaQEfg/o7Eyc1GUUlcL+dJd4Rt7qyf7A==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@headlessui/vue/-/vue-1.7.3.tgz}
+    id: registry.npmjs.org/@headlessui/vue/1.7.3
+    name: '@headlessui/vue'
+    version: 1.7.3
+    engines: {node: '>=10'}
+    peerDependencies:
+      vue: ^3.2.0
+    dependencies:
+      vue: 3.2.39
+    dev: true
+
   registry.npmjs.org/@intlify/bundle-utils/3.2.1:
     resolution: {integrity: sha512-rf4cLBOnbqmpXVcCdcYHilZpMt1m82syh3WLBJlZvGxN2KkH9HeHVH4+bnibF/SDXCHNh6lM6wTpS/qw+PkcMg==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@intlify/bundle-utils/-/bundle-utils-3.2.1.tgz}
     name: '@intlify/bundle-utils'
@@ -7591,22 +7603,6 @@ packages:
     name: reusify
     version: 1.0.4
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
-    dev: true
-
-  registry.npmjs.org/rollup-plugin-dts/4.2.3_typescript@4.8.4:
-    resolution: {integrity: sha512-jlcpItqM2efqfIiKzDB/IKOS9E9fDvbkJSGw5GtK/PqPGS9eC3R3JKyw2VvpTktZA+TNgJRMu1NTv244aTUzzQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/rollup-plugin-dts/-/rollup-plugin-dts-4.2.3.tgz}
-    id: registry.npmjs.org/rollup-plugin-dts/4.2.3
-    name: rollup-plugin-dts
-    version: 4.2.3
-    engines: {node: '>=v12.22.12'}
-    peerDependencies:
-      rollup: ^2.55
-      typescript: ^4.1
-    dependencies:
-      magic-string: registry.npmjs.org/magic-string/0.26.7
-      typescript: registry.npmjs.org/typescript/4.8.4
-    optionalDependencies:
-      '@babel/code-frame': registry.npmjs.org/@babel/code-frame/7.18.6
     dev: true
 
   registry.npmjs.org/run-parallel/1.2.0:

@@ -32,8 +32,8 @@ export interface Colors extends Record<ColorGroups, Record<keyof ColorGroups, Co
 
     input: Color
     inputDisabled: Color
-
     switch: Color
+    popover: Color
   }
   border: {
     primary: Color

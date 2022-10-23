@@ -1,23 +1,18 @@
 <script setup lang="ts">
-import AppButton from '../app-button/AppButton.vue'
-import AppIcon from '../app-icon/AppIcon.vue'
-import AppLoader from '../app-loader/AppLoader.vue'
-import FormInputLabel from './FormInputLabel.vue'
-
 import type { Props as BaseProps } from './useFormInput'
 
 import useFormInput from './useFormInput'
+import type { Rounded } from '@/types'
 
 import {
   useBorderRadius,
   useComponentAttrs,
 } from '@/composables'
 
-import { ButtonVariant, Rounded } from '@/enums'
 import { colors } from '@/theme'
 import { Icon } from '@/icons'
 
-interface Props extends BaseProps {
+export interface Props extends BaseProps {
   /**
    * Input error
    */
@@ -68,7 +63,7 @@ const props = withDefaults(defineProps<Props>(), {
   borderColor: undefined,
 
   padding: '0.5em',
-  rounded: Rounded.DEFAULT,
+  rounded: 'default',
 })
 
 const {
@@ -168,13 +163,13 @@ export default {
 
     <AppButton
       v-else-if="state.type === 'password'"
-      :variant="ButtonVariant.GHOST"
       :icon-left="state.isPasswordVisible
         ? Icon.CORE_EYE_HIDE
         : Icon.CORE_EYE_VIEW"
       :is-disabled="state.isDisabled || state.isReadonly"
       :accent-color="color"
-      :rounded="Rounded.SM"
+      rounded="sm"
+      variant="ghost"
       padding="0.2em"
       class="mr-[0.5em]"
       @click="togglePassword"

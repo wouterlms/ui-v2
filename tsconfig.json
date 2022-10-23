@@ -14,6 +14,8 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
     "baseUrl": ".",
+    "declaration": true,
+    "outDir": "dist",
     "paths": {
       "@/*": [
         "src/*"

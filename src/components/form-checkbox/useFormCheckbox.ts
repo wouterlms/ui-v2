@@ -1,6 +1,6 @@
 import { useVModel } from '@wouterlms/composables'
+
 import { usePropsWithDefaults } from '@/composables'
-import { Rounded } from '@/enums'
 
 export interface Props {
   /**
@@ -27,8 +27,8 @@ export interface Props {
 const defaultProps = {
   isDisabled: false,
   isReadonly: false,
-  rounded: Rounded.SM,
 }
+
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default () => {
   const props = usePropsWithDefaults(defaultProps, useAttrs() as unknown as Props)

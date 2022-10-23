@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { colors } from '@/theme'
 
-interface Props {
+export interface Props {
   /**
    * Error
    */

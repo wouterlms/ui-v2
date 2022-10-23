@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import AppIcon from '../app-icon/AppIcon.vue'
-
 import type { Props as BaseProps } from './useFormCheckbox'
 import useFormCheckbox from './useFormCheckbox'
+import type { Rounded } from '@/types'
 
 import {
   useBorderRadius,
@@ -14,9 +13,7 @@ import {
 import { colors } from '@/theme'
 import { Icon } from '@/icons'
 
-import { Rounded } from '@/enums'
-
-interface Props extends BaseProps {
+export interface Props extends BaseProps {
   error?: boolean
   accentColor?: string
   backgroundColor?: string
@@ -27,7 +24,7 @@ interface Props extends BaseProps {
 
 const props = withDefaults(defineProps<Props>(), {
   error: false,
-  rounded: Rounded.SM,
+  rounded: 'sm',
   accentColor: undefined,
   backgroundColor: undefined,
   borderColor: undefined,

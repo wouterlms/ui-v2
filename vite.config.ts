@@ -1,7 +1,7 @@
+import { resolve } from 'path'
 import { defineConfig } from 'vite'
 
 import vue from '@vitejs/plugin-vue'
-import dts from 'vite-plugin-dts'
 
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -16,7 +16,14 @@ import pkg from './package.json'
 export default defineConfig({
   plugins: [
     vue(),
-    dts(),
+    // dts({
+    //   exclude: [
+    //     './src/vite-env.d.ts',
+    //     './src/icons.ts',
+    //     './auto-imports.d.ts',
+    //     './components.d.ts',
+    //   ],
+    // }),
     Components({
       dirs: ['./src'],
       dts: true,
@@ -37,28 +44,26 @@ export default defineConfig({
     alias: [
       {
         find: '@',
-        replacement: '/src',
+        replacement: resolve(__dirname, 'src'),
       },
     ],
   },
   build: {
     lib: {
       name: 'index',
-      entry: '/src/index.ts',
+      entry: resolve(__dirname, 'src/index.ts'),
       formats: ['es'],
     },
     rollupOptions: {
       external: Object.keys(pkg.dependencies),
       input: {
-        index: '/src/index.ts',
+        index: resolve(__dirname, 'src/index.ts'),
       },
       output: {
         globals: {
           vue: 'Vue',
           vueRouter: 'VueRouter',
         },
-
-        // entryFileNames: () => '[name].[format].js',
         entryFileNames: () => '[name].[format].js',
       },
     },

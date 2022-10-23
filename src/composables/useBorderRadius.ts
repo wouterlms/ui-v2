@@ -1,13 +1,13 @@
 import useInstance from './useInstance'
-import { Rounded } from '@/enums'
+import type { Rounded } from '@/types'
 
-const mappedBorderRadius: Record<number, string> = {
-  [Rounded.NONE]: '0em',
-  [Rounded.SM]: '0.185em',
-  [Rounded.DEFAULT]: '0.375em',
-  [Rounded.MD]: '0.75em',
-  [Rounded.LG]: '3em',
-  [Rounded.FULL]: '50%',
+const mappedBorderRadius: Record<Rounded, string> = {
+  none: '0em',
+  sm: '0.185em',
+  default: '0.375em',
+  md: '0.75em',
+  lg: '3em',
+  full: '50%',
 }
 
 export default (): string => {

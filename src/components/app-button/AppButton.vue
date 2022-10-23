@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import AppIcon from '../app-icon/AppIcon.vue'
-import AppLoader from '../app-loader/AppLoader.vue'
-
 import type { Props as BaseProps } from './useAppButton'
 import useAppButton from './useAppButton'
+import type { ButtonVariant, Rounded } from '@/types'
 
 import { colors } from '@/theme'
-import { ButtonVariant, Rounded } from '@/enums'
 
 import {
   useBorderRadius,
@@ -14,7 +11,7 @@ import {
   useIsKeyboardMode,
 } from '@/composables'
 
-interface Props extends BaseProps {
+export interface Props extends BaseProps {
   /**
    * Button color
    */
@@ -59,14 +56,14 @@ interface Props extends BaseProps {
 
 const props = withDefaults(defineProps<Props>(), {
   accentColor: undefined,
-  variant: ButtonVariant.SOLID,
+  variant: 'solid',
   iconLeft: undefined,
   iconRight: undefined,
   iconSize: '0.875em',
   iconSpacing: '0.8em',
 
   padding: undefined,
-  rounded: Rounded.DEFAULT,
+  rounded: 'default',
 })
 
 const attrs = useAttrs()
@@ -91,9 +88,10 @@ const textColor = computed(() => (
 
 const backgroundColor = computed(() => {
   if ([
-    ButtonVariant.OUTLINE,
-    ButtonVariant.GHOST,
-    ButtonVariant.UNSTYLED,
+
+    'outline',
+    'ghost',
+    'unstyled',
   ].includes(props.variant))
     return 'transparent'
 
@@ -102,12 +100,12 @@ const backgroundColor = computed(() => {
 
 const color = computed(() => {
   if ([
-    ButtonVariant.GHOST,
-    ButtonVariant.OUTLINE,
+    'ghost',
+    'outline',
   ].includes(props.variant))
     return computedAccentColor.value
 
-  if (props.variant === ButtonVariant.UNSTYLED)
+  if (props.variant === 'unstyled')
     return colors.value.text.secondary
 
   return textColor.value
@@ -115,8 +113,8 @@ const color = computed(() => {
 
 const borderColor = computed(() => {
   if ([
-    ButtonVariant.SOLID,
-    ButtonVariant.OUTLINE,
+    'solid',
+    'outline',
   ].includes(props.variant))
     return computedAccentColor.value
 
@@ -127,7 +125,7 @@ const computedPadding = computed(() => {
   if (props.padding)
     return props.padding
 
-  if (props.variant === ButtonVariant.UNSTYLED)
+  if (props.variant === 'unstyled')
     return '0em'
 
   if (slots.default)
