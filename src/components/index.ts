@@ -17,7 +17,6 @@ export { default as AppMenuDivider } from './app-menu/AppMenuDivider.vue'
 export { default as AppMenuItem } from './app-menu/AppMenuItem.vue'
 
 export { default as AppModal } from './app-modal/AppModal.vue'
-export { default as AppModalAction } from './app-modal/AppModalAction.vue'
 export { default as AppModalContent } from './app-modal/AppModalContent.vue'
 export { default as AppModalOverlay } from './app-modal/AppModalOverlay.vue'
 export { default as AppModalTitle } from './app-modal/AppModalTitle.vue'

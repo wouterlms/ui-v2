@@ -11,17 +11,13 @@ const { tabs, state } = useAppTabs()
 
 <template>
   <Component :is="tabs">
-    <div
-      class="inline-flex p-1 rounded"
-    >
-      <div class="relative">
-        <div
-          :style="state.style"
-          class="bg-gray-primary dark:bg-tertiary h-full rounded"
-        />
+    <div class="inline-flex relative">
+      <div
+        :style="state.style"
+        class="bg-gray-primary dark:bg-tertiary h-full rounded"
+      />
 
-        <slot />
-      </div>
+      <slot />
     </div>
   </Component>
 </template>

@@ -7,6 +7,7 @@ specifiers:
   '@intlify/vite-plugin-vue-i18n': ^6.0.2
   '@tailwindcss/line-clamp': ^0.4.2
   '@vitejs/plugin-vue': ^3.1.0
+  '@vue/runtime-core': ^3.2.41
   '@wouterlms/composables': ^0.2.18
   '@wouterlms/create-route-map': ^1.0.3
   '@wouterlms/svg-transformer': ^1.0.5
@@ -51,6 +52,7 @@ devDependencies:
   '@intlify/vite-plugin-vue-i18n': registry.npmjs.org/@intlify/vite-plugin-vue-i18n/6.0.2_vite@3.1.0
   '@tailwindcss/line-clamp': 0.4.2_tailwindcss@3.1.8
   '@vitejs/plugin-vue': 3.1.0_vite@3.1.0+vue@3.2.39
+  '@vue/runtime-core': registry.npmjs.org/@vue/runtime-core/3.2.41
   '@wouterlms/composables': registry.npmjs.org/@wouterlms/composables/0.2.18_sgthg476u2k6kr6xtb2lx64i4i
   '@wouterlms/create-route-map': registry.npmjs.org/@wouterlms/create-route-map/1.0.3
   '@wouterlms/svg-transformer': registry.npmjs.org/@wouterlms/svg-transformer/1.0.5
@@ -6368,7 +6370,7 @@ packages:
     version: 1.0.3
     dependencies:
       '@volar/source-map': registry.npmjs.org/@volar/source-map/1.0.3
-      '@vue/reactivity': registry.npmjs.org/@vue/reactivity/3.2.39
+      '@vue/reactivity': registry.npmjs.org/@vue/reactivity/3.2.41
       muggle-string: registry.npmjs.org/muggle-string/0.1.0
     dev: true
 
@@ -6397,8 +6399,8 @@ packages:
       '@volar/source-map': registry.npmjs.org/@volar/source-map/1.0.3
       '@vue/compiler-dom': registry.npmjs.org/@vue/compiler-dom/3.2.39
       '@vue/compiler-sfc': registry.npmjs.org/@vue/compiler-sfc/3.2.39
-      '@vue/reactivity': registry.npmjs.org/@vue/reactivity/3.2.39
-      '@vue/shared': registry.npmjs.org/@vue/shared/3.2.39
+      '@vue/reactivity': registry.npmjs.org/@vue/reactivity/3.2.41
+      '@vue/shared': registry.npmjs.org/@vue/shared/3.2.41
       minimatch: registry.npmjs.org/minimatch/5.1.0
       vue-template-compiler: registry.npmjs.org/vue-template-compiler/2.7.10
     dev: true
@@ -6479,6 +6481,14 @@ packages:
     dependencies:
       '@vue/shared': registry.npmjs.org/@vue/shared/3.2.39
 
+  registry.npmjs.org/@vue/reactivity/3.2.41:
+    resolution: {integrity: sha512-9JvCnlj8uc5xRiQGZ28MKGjuCoPhhTwcoAdv3o31+cfGgonwdPNuvqAXLhlzu4zwqavFEG5tvaoINQEfxz+l6g==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@vue/reactivity/-/reactivity-3.2.41.tgz}
+    name: '@vue/reactivity'
+    version: 3.2.41
+    dependencies:
+      '@vue/shared': registry.npmjs.org/@vue/shared/3.2.41
+    dev: true
+
   registry.npmjs.org/@vue/runtime-core/3.2.39:
     resolution: {integrity: sha512-xKH5XP57JW5JW+8ZG1khBbuLakINTgPuINKL01hStWLTTGFOrM49UfCFXBcFvWmSbci3gmJyLl2EAzCaZWsx8g==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@vue/runtime-core/-/runtime-core-3.2.39.tgz}
     name: '@vue/runtime-core'
@@ -6487,10 +6497,25 @@ packages:
       '@vue/reactivity': registry.npmjs.org/@vue/reactivity/3.2.39
       '@vue/shared': registry.npmjs.org/@vue/shared/3.2.39
 
+  registry.npmjs.org/@vue/runtime-core/3.2.41:
+    resolution: {integrity: sha512-0LBBRwqnI0p4FgIkO9q2aJBBTKDSjzhnxrxHYengkAF6dMOjeAIZFDADAlcf2h3GDALWnblbeprYYpItiulSVQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@vue/runtime-core/-/runtime-core-3.2.41.tgz}
+    name: '@vue/runtime-core'
+    version: 3.2.41
+    dependencies:
+      '@vue/reactivity': registry.npmjs.org/@vue/reactivity/3.2.41
+      '@vue/shared': registry.npmjs.org/@vue/shared/3.2.41
+    dev: true
+
   registry.npmjs.org/@vue/shared/3.2.39:
     resolution: {integrity: sha512-D3dl2ZB9qE6mTuWPk9RlhDeP1dgNRUKC3NJxji74A4yL8M2MwlhLKUC/49WHjrNzSPug58fWx/yFbaTzGAQSBw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@vue/shared/-/shared-3.2.39.tgz}
     name: '@vue/shared'
     version: 3.2.39
+
+  registry.npmjs.org/@vue/shared/3.2.41:
+    resolution: {integrity: sha512-W9mfWLHmJhkfAmV+7gDjcHeAWALQtgGT3JErxULl0oz6R6+3ug91I7IErs93eCFhPCZPHBs4QJS7YWEV7A3sxw==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@vue/shared/-/shared-3.2.41.tgz}
+    name: '@vue/shared'
+    version: 3.2.41
+    dev: true
 
   registry.npmjs.org/@wouterlms/composables/0.2.18_sgthg476u2k6kr6xtb2lx64i4i:
     resolution: {integrity: sha512-Ui0k5XHP0WRhaJyNi7SLiRftHS0hpE+4K7Fu7i3E15ZG1TmiHakOYX6eH3nSk1ER2EmEJx7LNbrhKj6u1cUWvA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/@wouterlms/composables/-/composables-0.2.18.tgz}
