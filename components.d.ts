@@ -18,7 +18,6 @@ declare module '@vue/runtime-core' {
     AppMenuDivider: typeof import('./src/components/app-menu/AppMenuDivider.vue')['default']
     AppMenuItem: typeof import('./src/components/app-menu/AppMenuItem.vue')['default']
     AppModal: typeof import('./src/components/app-modal/AppModal.vue')['default']
-    AppModalAction: typeof import('./src/components/app-modal/AppModalAction.vue')['default']
     AppModalContent: typeof import('./src/components/app-modal/AppModalContent.vue')['default']
     AppModalOverlay: typeof import('./src/components/app-modal/AppModalOverlay.vue')['default']
     AppModalTitle: typeof import('./src/components/app-modal/AppModalTitle.vue')['default']

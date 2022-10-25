@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { icons as themeIcons } from '@/icons'
-import { icons as userIcons } from '@/theme'
-
 export interface Props {
   /**
    * Icon
@@ -17,16 +14,6 @@ export interface Props {
 const props = withDefaults(defineProps<Props>(), {
   preserveOriginalColor: false,
 })
-
-const svg = computed(() => ({
-  ...themeIcons,
-  ...userIcons,
-}[props.icon]))
-
-watch(svg, (svgValue) => {
-  if (svgValue === undefined)
-    throw new Error(`\`${props.icon}\` could not be found`)
-}, { immediate: true })
 
 const removeColors = (path: string): string => {
   let pathWithoutHexCodes = path
@@ -44,12 +31,12 @@ const removeColors = (path: string): string => {
 }
 
 const viewBox = computed(() => {
-  if (svg.value === undefined)
+  if (props.icon === undefined)
     return ''
 
   const wrapper = document.createElement('div')
 
-  wrapper.innerHTML = svg.value
+  wrapper.innerHTML = props.icon
 
   const viewbox = wrapper.querySelector('svg')?.getAttribute('viewBox')
 
@@ -57,12 +44,9 @@ const viewBox = computed(() => {
 })
 
 const paths = computed(() => {
-  if (svg.value === undefined)
-    return ''
-
   const wrapper = document.createElement('div')
 
-  wrapper.innerHTML = svg.value
+  wrapper.innerHTML = props.icon
 
   const svgContent = Array.from(wrapper.children)
     .map((c) => c.innerHTML)

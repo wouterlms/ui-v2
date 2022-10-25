@@ -50,9 +50,9 @@ const actionButton = h(AppButton, {
   >
     <AppButton
       v-if="isClosable"
-      :icon-left="Icon.CORE_CLOSE_BOLD"
+      :icon-left="Icon.GAMING_XMARK"
       variant="unstyled"
-      icon-size="0.7em"
+      icon-size="0.9em"
       padding="0.5em"
       class="!absolute right-3 top-[1.1em]"
       @click="emit('dismiss')"
@@ -60,7 +60,7 @@ const actionButton = h(AppButton, {
 
     <div class="flex">
       <AppIcon
-        :icon="Icon.CORE_INFO_FILLED"
+        :icon="Icon.INDICES_EXCLAMATIONMARK_CIRCLE"
         :style="{
           color: computedAccentColor,
         }"

@@ -87,8 +87,8 @@ export default {
           @click="close"
         >
           <AppIcon
-            :icon="Icon.CORE_CLOSE_BOLD"
-            class="h-2 text-secondary w-2"
+            :icon="Icon.GAMING_XMARK"
+            class="h-3 text-secondary w-3"
           />
         </AppFocusable>
 

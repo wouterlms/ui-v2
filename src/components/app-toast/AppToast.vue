@@ -18,7 +18,7 @@ const emit = defineEmits<{
 }>()
 
 const computedAccentColor = computed(() => props.accentColor ?? colors.value.accent.primary)
-const computedIcon = computed(() => props.icon ?? Icon.CORE_TICK_FILLED)
+const computedIcon = computed(() => props.icon ?? Icon.INDICES_EXCLAMATIONMARK_CIRCLE)
 </script>
 
 <template>
@@ -58,11 +58,11 @@ const computedIcon = computed(() => props.icon ?? Icon.CORE_TICK_FILLED)
         </h1>
 
         <AppButton
-          :icon-left="Icon.CORE_CLOSE_BOLD"
+          :icon-left="Icon.GAMING_XMARK"
           :accent-color="colors.text.tertiary"
           variant="ghost"
           padding="0.3em"
-          icon-size="0.5em"
+          icon-size="0.8em"
           @click="emit('close')"
         />
       </div>

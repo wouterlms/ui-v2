@@ -113,7 +113,7 @@ export default {
       <Transition name="tick-transition">
         <div v-if="state.isChecked">
           <AppIcon
-            :icon="Icon.CORE_TICK"
+            :icon="Icon.PRIVACY_AND_SECURITY_CHECKMARK"
             :style="{
               color: computedTickColor,
             }"

@@ -1,6 +1,6 @@
 {
   "name": "@wouterlms/ui",
-  "private": true,
+  "private": false,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -9,6 +9,7 @@
     "staging": "vue-tsc --noEmit && vite build --mode staging",
     "production": "vue-tsc --noEmit && vite build --mode production",
     "build": "vite build && vue-tsc --emitDeclarationOnly && cp package.json dist",
+    "release": "cd dist && npm publish",
     "lint": "eslint --ext .ts,.vue --ignore-path .gitignore src"
   },
   "exports": {
@@ -37,6 +38,7 @@
     "@vue/runtime-core": "^3.2.41",
     "@wouterlms/composables": "^0.2.18",
     "@wouterlms/create-route-map": "^1.0.3",
+    "@wouterlms/icons": "^0.0.3",
     "@wouterlms/svg-transformer": "^1.0.5",
     "autoprefixer": "^10.4.10",
     "axios": "^1.1.3",
