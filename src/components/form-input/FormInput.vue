@@ -164,8 +164,8 @@ export default {
     <AppButton
       v-else-if="state.type === 'password'"
       :icon-left="state.isPasswordVisible
-        ? Icon.HUMAN_EYE
-        : Icon.HUMAN_EYE_SLASH"
+        ? Icon.EYE
+        : Icon.EYE_SLASH"
       :is-disabled="state.isDisabled || state.isReadonly"
       :accent-color="color"
       rounded="sm"
