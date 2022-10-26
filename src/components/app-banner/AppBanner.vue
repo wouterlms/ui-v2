@@ -54,7 +54,7 @@ const actionButton = h(AppButton, {
       variant="unstyled"
       icon-size="0.9em"
       padding="0.5em"
-      class="!absolute right-3 top-[1.1em]"
+      class="!absolute right-2 top-[0.5em]"
       @click="emit('dismiss')"
     />
 
