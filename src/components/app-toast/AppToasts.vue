@@ -12,46 +12,17 @@ const {
 } = useToasts()
 
 const transition = ref(Transition.TO_BOTTOM)
-
-const handleBeforeEnter = (el: HTMLElement): void => {
-  const i = +el.getAttribute('data-index')!
-
-  el.style.transform = `translateY(${i * 10 + 10}px) scale(${1 - i / 40 - 0.05})`
-}
-
-const handleEnter = (el: HTMLElement): void => {
-  const i = +el.getAttribute('data-index')!
-
-  setTimeout(() => {
-    el.style.transform = `translateY(${i * 10}px) scale(${1 - i / 40})`
-  })
-}
-
-const handleLeave = (el: HTMLElement): void => {
-  const i = +el.getAttribute('data-index')!
-  el.style.transform = `translateY(${i * 10 - 30}px) scale(${1 - i / 40})`
-}
 </script>
 
 <template>
-  <div class="bottom-32 fixed right-20 w-96 z-10">
-    <TransitionGroup
-      :name="transition"
-      @before-enter="handleBeforeEnter"
-      @enter="handleEnter"
-      @leave="handleLeave"
-    >
+  <div class="bottom-12 fixed right-20 w-96 z-10">
+    <TransitionGroup :name="transition">
       <AppToast
-        v-for="(toast, i) of toasts"
+        v-for="toast of toasts"
         :key="toast.id"
-        :data-index="i"
         :accent-color="toast.accentColor"
         :icon="toast.icon"
-        :style="{
-          transform: `translateY(${i * 10}px) scale(${1 - i / 40})`,
-          zIndex: toasts.length - i,
-        }"
-        class="absolute mt-2 toast-transition-item top-0"
+        class="mt-2 toast-transition-item"
         @close="removeToast(toast)"
         @action="toast.action?.onClick()"
       >
@@ -74,21 +45,33 @@ const handleLeave = (el: HTMLElement): void => {
   </div>
 </template>
 
-<style scoped lang="scss">
-.toast-transition-item {
-  transition: transform 0.8s cubic-bezier(0.17, 0.67, 0.16, 0.99), 0.3s opacity;
-}
+  <style scoped lang="scss">
+  .toast-transition-item {
+    transition: transform 0.8s cubic-bezier(0.17, 0.67, 0.16, 0.99), 0.3s opacity;
+  }
 
-.toast-transition-to-right-enter-from,
-.toast-transition-to-right-leave-to,
-.toast-transition-to-bottom-enter-from,
-.toast-transition-to-bottom-leave-to {
-  opacity: 0;
-}
+  .toast-transition-to-right-enter-from,
+  .toast-transition-to-right-leave-to,
+  .toast-transition-to-bottom-enter-from,
+  .toast-transition-to-bottom-leave-to {
+    opacity: 0;
+  }
 
-.toast-transition-to-bottom-leave-active {
-  position: absolute;
-  width: 100%;
-  pointer-events: none;
-}
-</style>
+  .toast-transition-to-bottom-enter-from,
+  .toast-transition-to-right-enter-from {
+    transform: translateX(60px);
+  }
+
+  .toast-transition-to-bottom-leave-to {
+    transform: translateY(-30px);
+  }
+  .toast-transition-to-right-leave-to {
+    transform: translateX(400px);
+  }
+
+  .toast-transition-to-bottom-leave-active {
+    position: absolute;
+    width: 100%;
+    z-index: 10 !important;
+  }
+  </style>
