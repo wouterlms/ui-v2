@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Icon } from '@/icons'
+import { Icon } from '@wouterlms/icons'
 import { colors } from '@/theme'
 
 export interface Props {

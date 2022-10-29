@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { Icon } from '@wouterlms/icons'
+
 import AppButton from '../app-button/AppButton.vue'
 
 import { colors } from '@/theme'
-import { Icon } from '@/icons'
 
 export interface Props {
   /**

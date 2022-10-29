@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useIsMobileDevice } from '@wouterlms/composables'
+import { Icon } from '@wouterlms/icons'
 
 import AppModalOverlay from './AppModalOverlay.vue'
 
@@ -8,8 +9,6 @@ import useAppModal from './useAppModal'
 import type { Rounded } from '@/types'
 
 import { useBorderRadius } from '@/composables'
-
-import { Icon } from '@/icons'
 
 export interface Props extends BaseProps {
   /**

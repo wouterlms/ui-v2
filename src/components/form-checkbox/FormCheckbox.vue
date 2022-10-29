@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Icon } from '@wouterlms/icons'
+
 import type { Props as BaseProps } from './useFormCheckbox'
 import useFormCheckbox from './useFormCheckbox'
 import type { Rounded } from '@/types'
@@ -11,7 +13,6 @@ import {
 } from '@/composables'
 
 import { colors } from '@/theme'
-import { Icon } from '@/icons'
 
 export interface Props extends BaseProps {
   error?: boolean

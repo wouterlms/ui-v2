@@ -3,13 +3,16 @@ import { createTheme } from '@/theme'
 
 createTheme({
   colors: {},
-  icons: {},
   enableDarkMode: true,
 })
+
+const show = ref(false)
 </script>
 
 <template>
-  <div />
+  <div class="p-16 w-full">
+    <FormSwitch v-model="show" />
+  </div>
 </template>
 
 <style>

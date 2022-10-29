@@ -10,7 +10,7 @@ import {
 } from '@/composables'
 
 import { colors } from '@/theme'
-import { Icon } from '@/icons'
+import { CustomIcon } from '@/icons'
 
 export interface Props extends BaseProps {
   /**
@@ -164,8 +164,8 @@ export default {
     <AppButton
       v-else-if="state.type === 'password'"
       :icon-left="state.isPasswordVisible
-        ? Icon.EYE
-        : Icon.EYE_SLASH"
+        ? CustomIcon.EYE
+        : CustomIcon.EYE_SLASH"
       :is-disabled="state.isDisabled || state.isReadonly"
       :accent-color="color"
       rounded="sm"
