@@ -29,7 +29,6 @@ const computedIcon = computed(() => props.icon ?? Icon.INDICES_EXCLAMATIONMARK_C
     gap-x-4
     overflow-hidden
     p-4
-    relative
     rounded-md
     shadow-primary
     w-96"
