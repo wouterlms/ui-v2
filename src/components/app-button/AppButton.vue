@@ -179,7 +179,6 @@ const hasExplicitWidth = computed(
             v-if="state.isLoading && hasExplicitWidth"
             :style="{
               width: iconSize,
-              height: iconSize,
               marginRight: !!$slots.default ? iconSpacing : undefined,
             }"
             class="relative"
@@ -195,7 +194,6 @@ const hasExplicitWidth = computed(
               :icon="iconLeft"
               :style="{
                 width: iconSize,
-                height: iconSize,
                 marginRight: !!$slots.default ? iconSpacing : undefined,
               }"
             />
@@ -212,7 +210,6 @@ const hasExplicitWidth = computed(
         :icon="iconRight"
         :style="{
           width: iconSize,
-          height: iconSize,
           marginLeft: !!$slots.default ? iconSpacing : undefined,
         }"
       />

@@ -118,7 +118,7 @@ export default {
             :style="{
               color: computedTickColor,
             }"
-            class="h-[0.6875em] w-[0.6875em]"
+            class="w-[0.6875em]"
           />
         </div>
       </Transition>

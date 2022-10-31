@@ -6,12 +6,15 @@ createTheme({
   enableDarkMode: true,
 })
 
-const show = ref(false)
+const value = ref(null)
 </script>
 
 <template>
   <div class="p-16 w-full">
-    <FormSwitch v-model="show" />
+    <FormCheckbox
+      v-model="value"
+      :value="1"
+    />
   </div>
 </template>
 

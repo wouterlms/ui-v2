@@ -47,7 +47,7 @@ const computedIcon = computed(() => props.icon ?? Icon.INDICES_EXCLAMATIONMARK_C
         :style="{
           color: computedAccentColor,
         }"
-        class="h-4 mt-1 w-4"
+        class="mt-0.5 w-4"
       />
     </div>
 

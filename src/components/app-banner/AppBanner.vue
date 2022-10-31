@@ -65,7 +65,7 @@ const actionButton = h(AppButton, {
         :style="{
           color: computedAccentColor,
         }"
-        class="flex-shrink-0 h-5 translate-y-[1px] w-5"
+        class="flex-shrink-0 translate-y-[1px] w-5"
       />
 
       <div class="ml-4 text-secondary">

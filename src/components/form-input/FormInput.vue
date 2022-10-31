@@ -113,7 +113,6 @@ export default {
       :icon="iconLeft"
       :style="{
         width: iconLeftSize,
-        height: iconLeftSize,
         color: iconColor,
       }"
       class="flex-shrink-0 ml-[0.625em]"
@@ -155,7 +154,6 @@ export default {
       :icon="iconRight"
       :style="{
         width: iconRightSize,
-        height: iconRightSize,
         color: iconColor,
       }"
       class="flex-shrink-0 mr-[0.625em]"

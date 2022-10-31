@@ -82,12 +82,12 @@ export default {
       >
         <AppFocusable
           v-if="showCloseButton"
-          class="absolute bg-gray-secondary p-1.5 right-3 rounded-full top-3"
+          class="absolute bg-gray-secondary p-1 right-3 rounded-full top-3"
           @click="close"
         >
           <AppIcon
             :icon="Icon.GAMING_XMARK"
-            class="h-3 text-secondary w-3"
+            class="text-secondary w-3"
           />
         </AppFocusable>
 

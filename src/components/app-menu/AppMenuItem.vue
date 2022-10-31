@@ -30,7 +30,7 @@ withDefaults(defineProps<Props>(), {
           <AppIcon
             v-if="icon"
             :icon="icon"
-            class="flex-shrink-0 h-3 opacity-75 text-tertiary w-3"
+            class="flex-shrink-0 opacity-75 text-tertiary w-3"
           />
         </slot>
       </div>
