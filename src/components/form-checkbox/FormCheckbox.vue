@@ -9,7 +9,6 @@ import {
   useBorderRadius,
   useColor,
   useComponentAttrs,
-  useIsKeyboardMode,
 } from '@/composables'
 
 import { colors } from '@/theme'
@@ -33,7 +32,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { checkbox, state } = useFormCheckbox()
 
-const isKeyboardMode = useIsKeyboardMode()
 const slots = useSlots()
 const { isDarkColor } = useColor()
 const {
@@ -69,7 +67,7 @@ const computedBorderColor = computed(() => {
   return props.borderColor ?? colors.value.border.input
 })
 
-const computedTickColor = computed(() => (isDarkColor(computedBackgroundColor.value) ? '#fff' : '#000'))
+const computedTickColor = computed(() => (isDarkColor(computedBackgroundColor.value) ? '#ffffff' : '#000000'))
 </script>
 
 <script lang="ts">
@@ -92,7 +90,6 @@ export default {
       :is="checkbox"
       :class="[
         {
-          'focus:ring': isKeyboardMode,
           'opacity-50': state.isDisabled,
         },
       ]"
@@ -100,6 +97,7 @@ export default {
         backgroundColor: computedBackgroundColor,
         borderColor: computedBorderColor,
         borderRadius: useBorderRadius(),
+        outlineColor: computedBorderColor,
       }"
       class="border-[1.5px]
           border-solid
@@ -109,6 +107,7 @@ export default {
           h-[1.125em]
           items-center
           justify-center
+          outline-offset-[1.5px]
           w-[1.125em]"
     >
       <Transition name="tick-transition">

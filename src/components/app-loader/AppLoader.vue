@@ -2,9 +2,6 @@
 import { colors } from '@/theme'
 
 export interface Props {
-  /**
-   * Accent color
-   */
   accentColor?: string
 }
 
@@ -19,20 +16,14 @@ const computedAccentColor = computed(() => (
 
 <template>
   <div class="flex flex-col items-center">
-    <div class="flex h-[1.75em] items-center justify-center relative scale-75 w-[1.75em]">
-      <div class="h-full left-1/2 relative top-1/2 w-full">
-        <span
-          v-for="i of 12"
-          :key="i"
-          :style="{
-            transform: `rotate(${12 - i * 30}deg) translate(146%)`,
-            animationDelay: `${-i * 0.1 - 1.2}s`,
-            backgroundColor: computedAccentColor,
-          }"
-          class="-left-[10%] -top-[3.9%] absolute animate h-[0.1em] rounded w-[24%]"
-        />
-      </div>
-    </div>
+    <div
+      :style="{
+        borderColor: `${computedAccentColor}50`,
+        borderRightColor: computedAccentColor,
+        borderTopColor: computedAccentColor,
+      }"
+      class="border border-solid h-[1em] rounded-full spin text-center w-[1em]"
+    />
 
     <div
       v-if="$slots.default"
@@ -44,16 +35,16 @@ const computedAccentColor = computed(() => (
 </template>
 
 <style scoped lang="scss">
-.animate {
-  animation: 1.2s linear 0s infinite normal none running spinner
+.spin {
+  animation: spin 600ms infinite linear;
 }
 
-@keyframes spinner {
+@keyframes spin {
   0% {
-    opacity: 1
+    transform: rotate(0deg);
   }
   100% {
-    opacity: 0.15
+    transform: rotate(360deg);
   }
 }
 </style>

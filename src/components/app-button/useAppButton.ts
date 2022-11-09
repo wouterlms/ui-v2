@@ -63,10 +63,9 @@ export default () => {
       href,
     } = props.value
 
-    return h(component.value as string | VNode, {
-      href,
+    const buttonProps: Record<string, unknown> = {
       to,
-      type: typeof to !== 'string' && href === undefined ? type : undefined,
+      type: to === undefined && href === undefined ? type : undefined,
       disabled: isLoading || isDisabled,
       class: [
         'inline-block',
@@ -74,7 +73,12 @@ export default () => {
           ? 'cursor-not-allowed'
           : 'cursor-pointer',
       ],
-    })
+    }
+
+    if (href !== undefined)
+      buttonProps.href = href
+
+    return h(component.value as string | VNode, buttonProps)
   })
 
   return {

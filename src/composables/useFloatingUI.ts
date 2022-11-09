@@ -22,7 +22,6 @@ enum CSSPosition {
 type UseFloatingUI = (options: {
   referenceEl: ComputedRef<HTMLElement | null>
   floatingEl: ComputedRef<HTMLElement | null>
-  parentEl: ComputedRef<HTMLElement | null>
   arrowEl?: ComputedRef<HTMLElement | null>
   options: {
     margin: number
@@ -40,7 +39,7 @@ type UseFloatingUI = (options: {
   actualPosition: Ref<CSSPosition>
 }
 
-const useFloatingUI: UseFloatingUI = ({ referenceEl, floatingEl, parentEl, arrowEl, options }) => {
+const useFloatingUI: UseFloatingUI = ({ referenceEl, floatingEl, arrowEl, options }) => {
   let mutationObserver: MutationObserver | null = null
   let cleanup: (() => void) | null = null
 
@@ -104,13 +103,14 @@ const useFloatingUI: UseFloatingUI = ({ referenceEl, floatingEl, parentEl, arrow
 
   const updatePosition = async (): Promise<void> => {
     const { position } = options
+
     const {
       x,
       y,
       placement,
       middlewareData: { arrow: arrowPosition },
     } = await computePosition(
-      parentEl.value!,
+      referenceEl.value!,
       floatingEl.value!, {
         middleware: getMiddleware(),
         placement: (position ?? CSSPosition.BOTTOM),
@@ -126,7 +126,9 @@ const useFloatingUI: UseFloatingUI = ({ referenceEl, floatingEl, parentEl, arrow
     arrowPositionY.value = arrowPosition?.y ?? null
   }
 
-  const createMutationObserver = (): void => {
+  const createMutationObserver = async (): Promise<void> => {
+    await nextTick()
+
     if (referenceEl.value === null)
       throw new Error('referenceEl is null')
 
@@ -145,7 +147,7 @@ const useFloatingUI: UseFloatingUI = ({ referenceEl, floatingEl, parentEl, arrow
   }
 
   onMounted(() => {
-    createMutationObserver()
+    void createMutationObserver()
   })
 
   onBeforeUnmount(() => {

@@ -38,7 +38,7 @@ const props = withDefaults(defineProps<Props>(), {
   backgroundColor: undefined,
 })
 
-const popover = ref<InstanceType<typeof Popover> | null>(null)
+const popover = ref<HTMLElement | null>(null)
 const popoverPanel = ref<InstanceType<typeof PopoverPanel> | null>(null)
 const arrow = ref<HTMLElement | null>(null)
 
@@ -51,8 +51,7 @@ const {
   width,
 } = useFloatingUI({
   floatingEl: computed(() => popoverPanel.value?.$el ?? null),
-  referenceEl: computed(() => popover.value?.$el ?? null),
-  parentEl: computed(() => popover.value?.$el.parentElement ?? null),
+  referenceEl: computed(() => popover.value ?? null),
   arrowEl: computed(() => arrow.value ?? null),
   options: reactive({
     margin: props.margin,
@@ -75,13 +74,15 @@ export default {
 </script>
 
 <template>
-  <Popover
-    v-slot="{ close }"
-    ref="popover"
-  >
-    <PopoverButton>
-      <slot :close="close" />
-    </PopoverButton>
+  <Popover v-slot="{ close }">
+    <div
+      ref="popover"
+      class="inline-block"
+    >
+      <PopoverButton class="outline-offset-2 rounded">
+        <slot :close="close" />
+      </PopoverButton>
+    </div>
 
     <Transition
       enter-from-class="opacity-0"

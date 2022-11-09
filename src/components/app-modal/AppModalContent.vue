@@ -1,5 +1,5 @@
 <template>
-  <div class="max-h-[80vh] overflow-y-auto">
+  <div class="max-h-[60vh] md:max-h-[80vh] overflow-y-auto">
     <div class="w-full">
       <slot />
     </div>

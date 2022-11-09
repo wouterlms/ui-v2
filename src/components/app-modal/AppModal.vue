@@ -82,6 +82,7 @@ export default {
       >
         <AppFocusable
           v-if="showCloseButton"
+          type="button"
           class="absolute bg-gray-secondary p-1 right-3 rounded-full top-3"
           @click="close"
         >

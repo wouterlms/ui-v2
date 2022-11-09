@@ -11,7 +11,7 @@ withDefaults(defineProps<Props>(), {})
 <template>
   <Teleport to="body">
     <FocusTrap :active="active">
-      <div class="h-full">
+      <div>
         <slot />
       </div>
     </FocusTrap>

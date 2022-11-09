@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useIsKeyboardMode } from '@/composables'
-
 export interface Props {
   as?: string | Object
 }
@@ -8,18 +6,13 @@ export interface Props {
 withDefaults(defineProps<Props>(), {
   as: 'button',
 })
-
-const isKeyboardMode = useIsKeyboardMode()
 </script>
 
 <template>
   <Component
     :is="as"
-    :class="{
-      'focus:ring': isKeyboardMode,
-    }"
     type="button"
-    class="duration-200 rounded"
+    class="duration-200 outline-offset-[3px] rounded"
   >
     <slot />
   </Component>

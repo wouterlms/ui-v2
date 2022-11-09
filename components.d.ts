@@ -40,5 +40,6 @@ declare module '@vue/runtime-core' {
     FormSwitch: typeof import('./src/components/form-switch/FormSwitch.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Test: typeof import('./src/Test.vue')['default']
   }
 }

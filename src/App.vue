@@ -7,14 +7,24 @@ createTheme({
 })
 
 const value = ref(null)
+const showModal = ref(false)
 </script>
 
 <template>
-  <div class="p-16 w-full">
-    <FormCheckbox
-      v-model="value"
-      :value="1"
-    />
+  <div>
+    <AppButton @click="showModal = true">
+      Toggle
+    </AppButton>
+
+    <AppModal
+      v-model:show="showModal"
+      class="p-8 w-[90vw]"
+    >
+      <AppModalContent>
+        <div class="h-[150vh]" />
+        <FormInput :model-value="null" />
+      </AppModalContent>
+    </AppModal>
   </div>
 </template>
 

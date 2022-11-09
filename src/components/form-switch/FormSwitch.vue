@@ -2,10 +2,7 @@
 import type { Props as BaseProps } from '../form-checkbox/useFormCheckbox'
 import useFormCheckbox from '../form-checkbox/useFormCheckbox'
 
-import {
-  useComponentAttrs,
-  useIsKeyboardMode,
-} from '@/composables'
+import { useComponentAttrs } from '@/composables'
 
 import { colors } from '@/theme'
 
@@ -24,7 +21,6 @@ const computedAccentColor = computed(() => (
   props.accentColor ?? colors.value.accent.primary
 ))
 
-const isKeyboardMode = useIsKeyboardMode()
 const slots = useSlots()
 
 const {
@@ -77,7 +73,6 @@ export default {
       ref="switchEl"
       :class="[
         {
-          'focus:ring': isKeyboardMode,
           'opacity-50': state.isDisabled,
         },
       ]"
@@ -86,6 +81,7 @@ export default {
         backgroundColor: state.isChecked
           ? computedAccentColor
           : colors.background.switch,
+        outlineColor: computedAccentColor,
       }"
       class="border
           border-solid
@@ -93,6 +89,7 @@ export default {
           box-content
           duration-200
           min-w-[2.5em]
+          outline-offset-[1.5px]
           rounded-[1rem]"
     >
       <div

@@ -42,4 +42,19 @@
   input[type=time]::-webkit-calendar-picker-indicator {
     display: none;
   }
+
+  button:not(:focus-visible),
+  input:not(:focus-visible),
+  a:not(:focus-visible) {
+    outline-color: transparent !important;
+  }
+
+  :active:focus-visible {
+    outline-offset: 1px !important;
+  }
+  
+  :focus-visible {
+    @apply outline-accent-primary outline-2 outline;
+    transition: outline-color 300ms !important;
+  }
 }

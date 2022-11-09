@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useIsKeyboardMode } from '@/composables'
 import { colors } from '@/theme'
 
 export interface Props {
@@ -26,6 +27,8 @@ export interface Props {
 const props = withDefaults(defineProps<Props>(), {
   borderColor: undefined,
 })
+
+const isKeyboardMode = useIsKeyboardMode()
 
 const color = computed(() => {
   if (props.isDisabled)
@@ -56,7 +59,6 @@ const backgroundColor = computed(() => {
 </script>
 
 <template>
-  <!-- eslint-disable-next-line vuejs-accessibility/label-has-for -->
   <label
     :class="[
       {
@@ -68,8 +70,11 @@ const backgroundColor = computed(() => {
       borderColor,
       color,
       backgroundColor,
+      outlineColor: isFocused && isKeyboardMode
+        ? borderColor
+        : 'transparent',
     }"
-    class="border border-solid duration-200 flex items-center"
+    class="border border-solid duration-200 flex items-center outline outline-2 outline-offset-2"
   >
     <slot :color="color" />
   </label>

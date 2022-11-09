@@ -62,7 +62,7 @@ const props = withDefaults(defineProps<Props>(), {
   iconRightSize: '0.9375em',
   borderColor: undefined,
 
-  padding: '0.5em',
+  padding: '0.6em',
   rounded: 'default',
 })
 
@@ -138,7 +138,7 @@ export default {
       :style="{
         padding,
       }"
-      class="w-full"
+      class="!outline-none w-full"
     />
 
     <slot name="right" />
@@ -146,7 +146,7 @@ export default {
     <AppLoader
       v-if="state.isLoading"
       :accent-color="colors.text.input"
-      class="mr-[1em] text-[0.625em]"
+      class="mr-[1em] text-[0.8em]"
     />
 
     <AppIcon
@@ -179,7 +179,7 @@ export default {
 :deep input,
 :deep textarea {
   &::placeholder {
-    @apply text-input-placeholder text-[0.875em];
+    @apply text-input-placeholder;
     // @apply text-[0.875em] text-input-placeholder font-light;
   }
 }

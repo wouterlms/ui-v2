@@ -7,8 +7,9 @@ import {
 } from '@headlessui/vue'
 
 import { useVModel } from '@wouterlms/composables'
+
 import FormInput from '../form-input/FormInput.vue'
-import { useFloatingUI } from '@/composables'
+import { useComponentAttrs, useFloatingUI } from '@/composables'
 
 export interface Props {
   modelValue: unknown
@@ -20,6 +21,8 @@ const value = useVModel(toRef(props, 'modelValue'))
 
 const isMultiple = Array.isArray(props.modelValue)
 
+const { nonStylingAttrs, stylingAttrs, listenerAttrs } = useComponentAttrs()
+
 // To fix type error
 const computedValue = computed({
   get: () => value.value ?? undefined,
@@ -28,62 +31,75 @@ const computedValue = computed({
   },
 })
 
-const formInput = ref<InstanceType<typeof FormInput> | null>(null)
+const test = ref<HTMLElement | null>(null)
 const listbox = ref<InstanceType<typeof Listbox> | null>(null)
 const listboxOptions = ref<InstanceType<typeof ListboxOptions> | null>(null)
 
 const {
+  width,
   positionX,
   positionY,
   actualPosition,
 } = useFloatingUI({
   floatingEl: computed(() => listboxOptions.value?.$el ?? null),
-  referenceEl: computed(() => listbox.value?.$el ?? null),
-  parentEl: computed(() => listbox.value?.$el ?? null),
+  referenceEl: computed(() => test.value ?? null),
   options: reactive({
     margin: 0,
     offset: 0,
     position: 'bottom',
   }),
 })
+</script>
 
-onMounted(() => {
-  // console.log(listbox.value.$el)
-})
+<script lang="ts">
+export default {
+  inheritAttrs: false,
+}
 </script>
 
 <template>
-  <FormInput
-    ref="formInput"
-    :model-value="null"
-  />
-
-  <Listbox
-    ref="listbox"
-    v-model="computedValue"
-    as="div"
-    :multiple="isMultiple"
-    class="border border-solid"
+  <div
+    ref="test"
+    class="inline-flex"
+    v-bind="stylingAttrs"
   >
-    <ListboxButton>btn</ListboxButton>
-
-    <ListboxOptions
-      ref="listboxOptions"
-      :style="{
-        position: actualPosition,
-        top: `${positionY}px`,
-        left: `${positionX}px`,
-      }"
-      class="absolute bg-primary overflow-hidden shadow-primary w-52"
+    <Listbox
+      ref="listbox"
+      v-model="computedValue"
+      as="div"
+      :multiple="isMultiple"
     >
-      <!-- Slot -->
+      <ListboxButton
+        v-bind="{
+          ...listenerAttrs,
+          ...nonStylingAttrs,
+        }"
+        :as="FormInput"
+        :model-value="computedValue"
+        :is-readonly="true"
+        class="w-72"
+      />
 
-      <ListboxOption :value="1">
-        Option A
-      </ListboxOption>
-      <ListboxOption :value="2">
-        Option B
-      </ListboxOption>
-    </ListboxOptions>
-  </Listbox>
+      <ListboxOptions
+        ref="listboxOptions"
+        :style="{
+          position: actualPosition,
+          top: `${positionY}px`,
+          left: `${positionX}px`,
+          width: `${width}px`,
+        }"
+        class="absolute bg-primary outline-none overflow-hidden shadow-primary"
+      >
+        <!-- Slot -->
+
+        <ListboxOption :value="1">
+          Option A
+        </ListboxOption>
+
+        <ListboxOption :value="2">
+          Option B
+        </ListboxOption>
+      </ListboxOptions>
+    </Listbox>
+  </div>
 </template>

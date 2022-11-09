@@ -8,7 +8,6 @@ import { colors } from '@/theme'
 import {
   useBorderRadius,
   useColor,
-  useIsKeyboardMode,
 } from '@/composables'
 
 export interface Props extends BaseProps {
@@ -75,7 +74,6 @@ const {
 } = useAppButton()
 
 const { isDarkColor } = useColor()
-const isKeyboardMode = useIsKeyboardMode()
 
 const computedAccentColor = computed(
   () => props.accentColor ?? colors.value.accent.primary,
@@ -83,8 +81,8 @@ const computedAccentColor = computed(
 
 const textColor = computed(() => (
   isDarkColor(computedAccentColor.value)
-    ? '#fff'
-    : '#000'))
+    ? '#ffffff'
+    : '#000000'))
 
 const backgroundColor = computed(() => {
   if ([
@@ -121,6 +119,15 @@ const borderColor = computed(() => {
   return 'transparent'
 })
 
+const outlineColor = computed(() => {
+  const { variant } = props
+
+  if (['unstyled', 'ghost'].includes(variant))
+    return color.value
+
+  return borderColor.value
+})
+
 const computedPadding = computed(() => {
   if (props.padding)
     return props.padding
@@ -128,10 +135,10 @@ const computedPadding = computed(() => {
   if (props.variant === 'unstyled')
     return '0em'
 
-  if (slots.default)
+  if (!slots.default)
     return '1em'
 
-  return '1em 1.2em'
+  return '1.1em 1.2em'
 })
 
 const hasExplicitWidth = computed(
@@ -145,17 +152,18 @@ const hasExplicitWidth = computed(
       {
         'active:brightness-[1.2]': !state.isDisabled && !state.isLoading,
         'opacity-50': state.isDisabled,
-        'focus:ring': isKeyboardMode,
+        'opacity-75': state.isLoading,
       },
     ]"
     :style="{
       backgroundColor,
       borderColor,
       color,
+      outlineColor,
       padding: computedPadding,
       borderRadius: useBorderRadius(),
     }"
-    class="border border-solid duration-200 relative text-sm"
+    class="border border-solid duration-200 outline-offset-[2px] relative text-sm"
   >
     <div
       v-if="state.isLoading && !hasExplicitWidth"
@@ -163,7 +171,7 @@ const hasExplicitWidth = computed(
     >
       <AppLoader
         :accent-color="color"
-        class="text-[0.7em]"
+        class="text-[1em]"
       />
     </div>
 
@@ -185,7 +193,7 @@ const hasExplicitWidth = computed(
           >
             <AppLoader
               :accent-color="color"
-              class="!absolute -translate-x-1/2 -translate-y-1/2 left-1/2 text-[0.7em] top-1/2"
+              class="!absolute -translate-x-1/2 -translate-y-1/2 left-1/2 text-[0.9em] top-1/2"
             />
           </div>
 
@@ -201,7 +209,7 @@ const hasExplicitWidth = computed(
         </Transition>
       </div>
 
-      <span class="pointer-events-none text-[0.875em] whitespace-nowrap">
+      <span class="pointer-events-none text-[0.9375em] whitespace-nowrap">
         <slot />
       </span>
 

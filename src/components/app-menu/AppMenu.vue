@@ -40,7 +40,6 @@ const {
 } = useFloatingUI({
   floatingEl: computed(() => menuItems.value?.$el ?? null),
   referenceEl: computed(() => menu.value?.$el ?? null),
-  parentEl: computed(() => menuButton.value?.$el ?? null),
   arrowEl: computed(() => arrow.value ?? null),
   options: reactive({
     margin: props.margin,

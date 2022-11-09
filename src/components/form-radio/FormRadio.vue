@@ -2,10 +2,7 @@
 import type { Props as BaseProps } from './useFormRadio'
 import useFormRadio from './useFormRadio'
 
-import {
-  useComponentAttrs,
-  useIsKeyboardMode,
-} from '@/composables'
+import { useComponentAttrs } from '@/composables'
 
 import { colors } from '@/theme'
 
@@ -25,7 +22,6 @@ const computedAccentColor = computed(() => (
   props.accentColor ?? colors.value.accent.primary
 ))
 
-const isKeyboardMode = useIsKeyboardMode()
 const slots = useSlots()
 
 const {
@@ -74,12 +70,12 @@ export default {
       :is="radio"
       :class="[
         {
-          'focus:ring': isKeyboardMode,
           'opacity-50': state.isDisabled,
         },
       ]"
       :style="{
         borderColor,
+        outlineColor: borderColor,
       }"
       class="bg-primary
         border-[1.5px]
@@ -90,6 +86,7 @@ export default {
         h-[1.125em]
         items-center
         justify-center
+        outline-offset-[1.5px]
         rounded-full
         w-[1.125em]"
     >
