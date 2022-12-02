@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import {
-  Menu,
-  MenuButton,
-  MenuItems,
-} from '@headlessui/vue'
-
+import { useEventListener } from '@wouterlms/composables'
 import type { Placement } from '@floating-ui/dom'
 
+import {
+  useBorderRadius,
+  useFloatingUI,
+  useIsKeyboardMode,
+} from '@/composables'
+
+import { clickOutside as vClickOutside } from '@/directives'
+
 import type { Rounded } from '@/types'
-import { useBorderRadius, useFloatingUI } from '@/composables'
 
 export interface Props {
   position?: Placement
@@ -16,6 +18,10 @@ export interface Props {
   margin?: number
   offset?: number
   showArrow?: boolean
+  container?: HTMLElement
+  backgroundColor?: string
+  containerPadding?: number
+  inheritWidth?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -24,12 +30,26 @@ const props = withDefaults(defineProps<Props>(), {
   margin: 15,
   offset: 0,
   showArrow: true,
+  container: undefined,
+  backgroundColor: undefined,
+  containerPadding: 0,
+  inheritWidth: false,
 })
 
-const menu = ref<InstanceType<typeof Menu> | null>(null)
-const menuItems = ref<InstanceType<typeof MenuItems> | null>(null)
-const menuButton = ref<InstanceType<typeof MenuButton> | null>(null)
+const isMenuVisible = ref(false)
+
+const container = ref<HTMLElement | null>(null)
+const button = ref<HTMLElement | null>(null)
+const menu = ref<HTMLElement | null>(null)
 const arrow = ref<HTMLElement | null>(null)
+const menuScrollContainer = ref<HTMLElement | null>(null)
+
+let menuObserver: MutationObserver | null = null
+
+const activeDescendantId = ref<string | null>(null)
+const menuItems = ref<HTMLButtonElement[]>([])
+
+const isKeyboardMode = useIsKeyboardMode()
 
 const {
   positionX,
@@ -37,70 +57,209 @@ const {
   arrowPositionX,
   arrowPositionY,
   actualPosition,
+  width,
 } = useFloatingUI({
-  floatingEl: computed(() => menuItems.value?.$el ?? null),
-  referenceEl: computed(() => menu.value?.$el ?? null),
+  isFloatingElementVisible: computed(() => isMenuVisible.value),
+  floatingEl: computed(() => menu.value ?? null),
+  referenceEl: computed(() => button.value ?? null),
   arrowEl: computed(() => arrow.value ?? null),
   options: reactive({
     margin: props.margin,
     offset: props.offset,
     position: props.position,
+    container: props.container,
+    containerPadding: props.containerPadding,
   }),
 })
+
+const closeAndFocusButton = (): void => {
+  if (isMenuVisible.value) {
+    isMenuVisible.value = false
+    button.value?.focus()
+  }
+}
+
+const scrollToMenuItem = (menuItem: HTMLElement): void => {
+  const currentScrollPosition = menuScrollContainer.value?.scrollTop ?? 0
+  const containerHeight = menuScrollContainer.value?.clientHeight ?? 0
+
+  if (
+    menuItem.offsetTop > currentScrollPosition + containerHeight - menuItem.clientHeight
+    || menuItem.offsetTop < currentScrollPosition
+  )
+    menuScrollContainer.value?.scrollTo(0, menuItem.offsetTop)
+}
+
+const selectMenuItem = (index: number): void => {
+  const menuItem = menuItems.value[index] ?? null
+
+  if (menuItem !== null) {
+    activeDescendantId.value = menuItem.id
+    scrollToMenuItem(menuItem)
+  }
+}
+
+const handleKeyDown = (event: KeyboardEvent): void => {
+  if (!isMenuVisible.value)
+    return
+
+  const index = menuItems.value.findIndex(
+    (menuItem) => menuItem.id === activeDescendantId.value,
+  )
+
+  const activeMenuItem = menuItems.value.find(
+    (menuItem) => menuItem.id === activeDescendantId.value,
+  )
+
+  switch (event.key) {
+    case 'ArrowUp':
+      selectMenuItem(index - 1)
+      event.preventDefault()
+
+      break
+    case 'ArrowDown':
+      selectMenuItem(index + 1)
+      event.preventDefault()
+
+      break
+    case 'Escape':
+      closeAndFocusButton()
+
+      break
+    case ' ':
+    case 'Enter':
+      activeMenuItem?.click()
+      event.preventDefault()
+      closeAndFocusButton()
+
+      break
+    default:
+      break
+  }
+}
+
+useEventListener('keydown', handleKeyDown)
+
+useEventListener(document, 'focusin', () => {
+  if (!isMenuVisible.value)
+    return
+
+  const activeElement = document.activeElement as HTMLElement | null
+  const isFocusInMenu = menu.value!.contains(activeElement) || activeElement === button.value
+
+  if (activeElement !== menu.value && !isFocusInMenu)
+    isMenuVisible.value = false
+})
+
+const setMenuItems = (): void => {
+  menuItems.value = Array.from(menu.value!.querySelectorAll('button'))
+
+  menuItems.value.forEach((menuItem, i) => {
+    menuItem.setAttribute('id', `menu-item-${i}`)
+    menuItem.addEventListener('click', () => closeAndFocusButton())
+  })
+
+  if (isKeyboardMode.value)
+    selectMenuItem(0)
+}
+
+const createMenuObserver = (): void => {
+  menuObserver = new MutationObserver(() => {
+    setMenuItems()
+  })
+
+  setMenuItems()
+
+  menuObserver.observe(menu.value as HTMLElement, {
+    childList: true,
+    subtree: true,
+  })
+}
+
+watch(isMenuVisible, async (isMenuVisible) => {
+  if (isMenuVisible) {
+    await nextTick()
+    createMenuObserver()
+
+    setTimeout(() => {
+      menu.value?.focus()
+    }, 0)
+  }
+  else {
+    menuObserver?.disconnect()
+    activeDescendantId.value = null
+  }
+})
+
+onMounted(() => {
+  const children = container.value?.children ?? []
+
+  if (children.length !== 1)
+    throw new Error('<AppMenu> must have exactly one element in <slot>')
+
+  button.value = children[0] as HTMLElement
+
+  button.value.addEventListener('click', () => {
+    isMenuVisible.value = !isMenuVisible.value
+  })
+})
+
+provide('activeDescendantId', activeDescendantId)
 </script>
 
 <template>
-  <Menu
-    ref="menu"
-    as="div"
-  >
-    <MenuButton
-      ref="menuButton"
-      class="group"
-    >
-      <slot />
-    </MenuButton>
+  <div ref="container">
+    <slot />
 
-    <Transition
-      enter-from-class="opacity-0"
-      leave-to-class="opacity-0"
-      enter-to-class="opacity-100"
-      leave-from-class="opacity-100"
-      enter-active-class="duration-100 transition-opacity"
-      leave-active-class="duration-100 transition-opacity"
+    <div
+      v-if="isMenuVisible"
+      ref="menu"
+      v-click-outside="() => isMenuVisible = false"
+      :aria-activedescendant="activeDescendantId ?? undefined"
+      :style="{
+        [actualPosition]: 'auto',
+        top: `${positionY}px`,
+        left: `${positionX}px`,
+        width: inheritWidth ? `${width}px` : undefined,
+        borderRadius: useBorderRadius(),
+      }"
+      role="menu"
+      tabindex="0"
+      class="absolute bg-primary flex flex-col outline-none shadow-primary"
     >
-      <MenuItems
-        ref="menuItems"
+      <div
+        v-show="showArrow"
+        ref="arrow"
         :style="{
-          position: actualPosition,
-          top: `${positionY}px`,
-          left: `${positionX}px`,
+          left: arrowPositionX !== null ? `${arrowPositionX}px` : '',
+          top: arrowPositionY !== null ? `${arrowPositionY}px` : '',
+          right: '',
+          bottom: '',
+          [actualPosition]: '-4px',
+        }"
+        class="absolute bg-primary h-3 rotate-45 rounded-sm shadow-primary w-3"
+      />
+
+      <div
+        ref="menuScrollContainer"
+        :style="{
           borderRadius: useBorderRadius(),
         }"
-        class="absolute bg-primary shadow-primary w-52"
+        class="bg-primary
+          flex
+          flex-col
+          h-full
+          left-0
+          max-h-[20rem]
+          overflow-hidden
+          overflow-y-auto
+          relative
+          top-0
+          w-full
+          z-[1]"
       >
-        <div
-          v-show="showArrow"
-          ref="arrow"
-          :style="{
-            left: arrowPositionX !== null ? `${arrowPositionX}px` : '',
-            top: arrowPositionY !== null ? `${arrowPositionY}px` : '',
-            right: '',
-            bottom: '',
-            [actualPosition]: '-4px',
-          }"
-          class="absolute bg-primary h-3 rotate-45 rounded-sm shadow-primary w-3"
-        />
-
-        <div
-          :style="{
-            borderRadius: useBorderRadius(),
-          }"
-          class="bg-primary flex flex-col h-full left-0 overflow-hidden relative top-0 w-full z-[1]"
-        >
-          <slot name="menu" />
-        </div>
-      </MenuItems>
-    </Transition>
-  </Menu>
+        <slot name="menu" />
+      </div>
+    </div>
+  </div>
 </template>

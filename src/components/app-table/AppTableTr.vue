@@ -9,6 +9,7 @@ withDefaults(defineProps<Props>(), {
 
 const grid = inject('grid') as string
 const border = inject('border') as boolean
+const maxWidth = inject('maxWidth') as string
 </script>
 
 <template>
@@ -17,16 +18,21 @@ const border = inject('border') as boolean
     :class="{
       'border-b border-solid border-tertiary': border,
     }"
-    :style="{
-      'grid-template-columns': grid,
-    }"
-    class="gap-4
+    class="last:border-none"
+  >
+    <div
+      :style="{
+        'grid-template-columns': grid,
+        maxWidth,
+      }"
+      class="gap-4
       grid
       items-center
-      last:border-none
+      mx-auto
       p-4
       text-secondary"
-  >
-    <slot />
+    >
+      <slot />
+    </div>
   </Component>
 </template>

@@ -20,6 +20,7 @@ enum CSSPosition {
 }
 
 type UseFloatingUI = (options: {
+  isFloatingElementVisible: ComputedRef<boolean>
   referenceEl: ComputedRef<HTMLElement | null>
   floatingEl: ComputedRef<HTMLElement | null>
   arrowEl?: ComputedRef<HTMLElement | null>
@@ -39,8 +40,8 @@ type UseFloatingUI = (options: {
   actualPosition: Ref<CSSPosition>
 }
 
-const useFloatingUI: UseFloatingUI = ({ referenceEl, floatingEl, arrowEl, options }) => {
-  let mutationObserver: MutationObserver | null = null
+const useFloatingUI: UseFloatingUI = (
+  { isFloatingElementVisible, referenceEl, floatingEl, arrowEl, options }) => {
   let cleanup: (() => void) | null = null
 
   const positionX = ref(0)
@@ -126,32 +127,37 @@ const useFloatingUI: UseFloatingUI = ({ referenceEl, floatingEl, arrowEl, option
     arrowPositionY.value = arrowPosition?.y ?? null
   }
 
-  const createMutationObserver = async (): Promise<void> => {
-    await nextTick()
+  // const createMutationObserver = async (): Promise<void> => {
+  //   await nextTick()
 
-    if (referenceEl.value === null)
-      throw new Error('referenceEl is null')
+  //   if (referenceEl.value === null)
+  //     throw new Error('referenceEl is null')
 
-    mutationObserver = new MutationObserver(() => {
-      if (floatingEl.value === null)
-        cleanup?.()
-      else
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        cleanup = autoUpdate(referenceEl.value!, floatingEl.value, updatePosition)
-    })
+  //   mutationObserver = new MutationObserver(() => {
+  //     if (floatingEl.value === null)
+  //       cleanup?.()
+  //     else
+  //       // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  //       cleanup = autoUpdate(referenceEl.value!, floatingEl.value, updatePosition)
+  //   })
 
-    mutationObserver.observe(referenceEl.value, {
-      childList: true,
-      subtree: true,
-    })
-  }
+  //   mutationObserver.observe(referenceEl.value, {
+  //     childList: true,
+  //     subtree: true,
+  //   })
+  // }
 
-  onMounted(() => {
-    void createMutationObserver()
+  watch(isFloatingElementVisible, async (isVisible) => {
+    if (isVisible) {
+      await nextTick()
+      cleanup = autoUpdate(referenceEl.value!, floatingEl.value!, updatePosition as any)
+    }
+    else {
+      cleanup?.()
+    }
   })
 
   onBeforeUnmount(() => {
-    mutationObserver?.disconnect()
     cleanup?.()
   })
 

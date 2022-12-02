@@ -20,12 +20,18 @@ export interface Props {
    * Shows a close button
    */
   isClosable?: boolean
+
+  /**
+   * Banner icon
+   */
+  icon?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   title: undefined,
   accentColor: undefined,
   isClosable: true,
+  icon: undefined,
 })
 
 const emit = defineEmits<{ (event: 'dismiss'): void }>()
@@ -33,6 +39,8 @@ const emit = defineEmits<{ (event: 'dismiss'): void }>()
 const computedAccentColor = computed(
   () => props.accentColor ?? colors.value.accent.primary,
 )
+
+const computedIcon = computed(() => props.icon ?? Icon.INDICES_EXCLAMATIONMARK_CIRCLE)
 
 const actionButton = h(AppButton, {
   variant: 'outline',
@@ -61,7 +69,7 @@ const actionButton = h(AppButton, {
 
     <div class="flex">
       <AppIcon
-        :icon="Icon.INDICES_EXCLAMATIONMARK_CIRCLE"
+        :icon="computedIcon"
         :style="{
           color: computedAccentColor,
         }"

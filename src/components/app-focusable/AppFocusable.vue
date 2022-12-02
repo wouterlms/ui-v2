@@ -12,7 +12,7 @@ withDefaults(defineProps<Props>(), {
   <Component
     :is="as"
     type="button"
-    class="duration-200 outline-offset-[3px] rounded"
+    class="duration-200 outline-inherit outline-offset-[3px] rounded"
   >
     <slot />
   </Component>

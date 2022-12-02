@@ -58,6 +58,10 @@ export default () => {
     })
   }
 
+  onBeforeUnmount(() => (
+    document.body.style.overflow = 'auto'
+  ))
+
   const modalWrapper = computed(() => h(AppModalWrapper, {
     active: showModal.value && props.value.trapFocus,
   }))

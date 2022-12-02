@@ -45,6 +45,8 @@ export { default as useFormCheckbox } from './form-checkbox/useFormCheckbox'
 export type { Props as FormCheckboxBaseProps } from './form-checkbox/useFormCheckbox'
 
 export { default as FormInput } from './form-input/FormInput.vue'
+export { default as FormInputLabel } from './form-input/FormInputLabel.vue'
+
 export { default as useFormInput } from './form-input/useFormInput'
 export type { Props as FormInputBaseProps } from './form-input/useFormInput'
 

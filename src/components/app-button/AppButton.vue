@@ -129,7 +129,7 @@ const outlineColor = computed(() => {
 })
 
 const computedPadding = computed(() => {
-  if (props.padding)
+  if (props.padding !== undefined)
     return props.padding
 
   if (props.variant === 'unstyled')
