@@ -1,19 +1,19 @@
 <script setup lang="ts">
 export interface Props {
-  truncate?: boolean
+  canBeTruncated?: boolean
 }
 
 withDefaults(defineProps<Props>(), {
-  truncate: true,
+  canBeTruncated: true,
 })
 </script>
 
 <template>
   <div
     :class="{
-      'truncate leading-5': truncate,
+      truncate: canBeTruncated,
     }"
-    class="text-secondary text-sm"
+    class="leading-5 text-sm"
   >
     <slot />
   </div>

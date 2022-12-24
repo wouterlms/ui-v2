@@ -70,6 +70,7 @@ const actionButton = h(AppButton, {
     <div class="flex">
       <AppIcon
         :icon="computedIcon"
+        :secondary-color="colors.text.primary"
         :style="{
           color: computedAccentColor,
         }"

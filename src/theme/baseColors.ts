@@ -11,7 +11,7 @@ const colors: Colors = {
 
   gray: {
     primary: [
-      '#f5f6fc',
+      '#fafafa',
       '#1c1d20',
     ],
     secondary: [
@@ -32,6 +32,10 @@ const colors: Colors = {
     primary: [
       '#272c33',
       '#ffffff',
+    ],
+    primaryInverted: [
+      '#ffffff',
+      '#272c33',
     ],
     secondary: [
       '#5b6573',
@@ -61,6 +65,12 @@ const colors: Colors = {
       '#ffffff',
       '#1C1C1E',
     ],
+
+    primaryInverted: [
+      '#1C1C1E',
+      '#ffffff',
+    ],
+
     secondary: [
       '#F8F9FD',
       '#2C2C2E',
@@ -90,7 +100,7 @@ const colors: Colors = {
 
   border: {
     primary: [
-      '#dcdfe6',
+      '#eaeaea',
       '#343539',
     ],
     secondary: [

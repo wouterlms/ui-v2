@@ -18,6 +18,7 @@ export interface Colors extends Record<ColorGroups, Record<string, Color>> {
   }
   text: {
     primary: Color
+    primaryInverted: Color
     secondary: Color
     tertiary: Color
 
@@ -27,6 +28,7 @@ export interface Colors extends Record<ColorGroups, Record<string, Color>> {
   }
   background: {
     primary: Color
+    primaryInverted: Color
     secondary: Color
     tertiary: Color
 

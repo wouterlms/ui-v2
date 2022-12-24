@@ -5,6 +5,7 @@ module.exports = {
     './index.html',
     './src/**/*.{vue,ts}',
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       zIndex: {
@@ -39,6 +40,7 @@ module.exports = {
       },
       textColor: {
         'primary': 'var(--text-primary)',
+        'primary-inverted': 'var(--text-primary-inverted)',
         'secondary': 'var(--text-secondary)',
         'tertiary': 'var(--text-tertiary)',
 
@@ -48,6 +50,7 @@ module.exports = {
       },
       backgroundColor: {
         'primary': 'var(--bg-primary)',
+        'primary-inverted': 'var(--bg-primary-inverted)',
         'secondary': 'var(--bg-secondary)',
         'tertiary': 'var(--bg-tertiary)',
 

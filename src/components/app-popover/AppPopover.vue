@@ -3,12 +3,11 @@ import { useEventListener } from '@wouterlms/composables'
 
 import type { Placement } from '@floating-ui/dom'
 
+import type { Rounded } from '../../types'
 import { useBorderRadius, useFloatingUI } from '@/composables'
 import { colors } from '@/theme'
 
 import { clickOutside as vClickOutside } from '@/directives'
-
-import type { Rounded } from '@/types'
 
 export interface Props {
   position?: Placement
@@ -58,7 +57,7 @@ const {
     margin: props.margin,
     offset: props.offset,
     position: props.position,
-    container: props.container,
+    container: props.container ?? document.body,
     containerPadding: props.containerPadding,
   }),
 })
@@ -113,46 +112,65 @@ onMounted(() => {
   <div ref="container">
     <slot />
 
-    <div
-      v-if="isPopoverVisible"
-      ref="popover"
-      v-click-outside="() => isPopoverVisible = false"
-      :style="{
-        [actualPosition]: 'auto',
-        top: `${positionY}px`,
-        left: `${positionX}px`,
-        width: inheritWidth ? `${width}px` : undefined,
-        backgroundColor: computedBackgroundColor,
-        borderRadius: useBorderRadius(),
-      }"
-      class="absolute shadow-primary"
-    >
+    <Transition name="popover">
       <div
-        v-show="showArrow"
-        ref="arrow"
+        v-if="isPopoverVisible"
+        ref="popover"
+        v-click-outside="() => isPopoverVisible = false"
         :style="{
-          backgroundColor: computedBackgroundColor,
-          left: arrowPositionX !== null ? `${arrowPositionX}px` : '',
-          top: arrowPositionY !== null ? `${arrowPositionY}px` : '',
-          right: '',
-          bottom: '',
-          [actualPosition]: '-4px',
-        }"
-        class="absolute h-3 rotate-45 rounded-sm shadow-primary w-3"
-      />
-
-      <div
-        :style="{
+          [actualPosition]: 'auto',
+          top: `${positionY}px`,
+          left: `${positionX}px`,
+          width: inheritWidth ? `${width}px` : undefined,
           backgroundColor: computedBackgroundColor,
           borderRadius: useBorderRadius(),
         }"
-        class="h-full left-0 overflow-hidden relative top-0 w-full z-[1]"
+        class="absolute shadow-primary"
       >
-        <slot
-          name="popover"
-          :close="closeAndFocusButton"
+        <div
+          v-show="showArrow"
+          ref="arrow"
+          :style="{
+            backgroundColor: computedBackgroundColor,
+            left: arrowPositionX !== null ? `${arrowPositionX}px` : '',
+            top: arrowPositionY !== null ? `${arrowPositionY}px` : '',
+            right: '',
+            bottom: '',
+            [actualPosition]: '-4px',
+          }"
+          class="absolute h-3 rotate-45 rounded-sm shadow-primary w-3"
         />
+
+        <div
+          :style="{
+            backgroundColor: computedBackgroundColor,
+            borderRadius: useBorderRadius(),
+          }"
+          class="h-full left-0 overflow-hidden relative top-0 w-full z-[1]"
+        >
+          <slot
+            name="popover"
+            :close="closeAndFocusButton"
+          />
+        </div>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>
+
+<style scoped lang="scss">
+.popover {
+  &-enter-active,
+  &-leave-active {
+    transition-property: transform, opacity;
+    transition-duration: 0.2s;
+    transition-timing-function: cubic-bezier(0.22, 0.68, 0, 1.51);
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+</style>

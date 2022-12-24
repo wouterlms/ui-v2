@@ -1,77 +1,73 @@
 <script setup lang="ts">
+// Library imports
+
+// Library type imports
+
+// Relative imports
+
+// Store imports
+// Service imports
+// Composable imports
+
+// Enum imports
+// Type imports
+
+// Spread composables
+// Composables
 import { useToasts } from '@/composables'
 
-enum Transition {
-  TO_RIGHT = 'toast-transition-to-right',
-  TO_BOTTOM = 'toast-transition-to-bottom',
-}
+// Refs
 
-const {
-  toasts,
-  removeToast,
-} = useToasts()
+// Computed properties
 
-const transition = ref(Transition.TO_BOTTOM)
+// Functions
+
+// Hooks
+
+const { toast } = useToasts()
+
+const showToast = computed(() => toast.value !== null)
 </script>
 
 <template>
-  <div class="bottom-12 fixed right-20 w-96 z-10">
-    <TransitionGroup :name="transition">
-      <AppToast
-        v-for="toast of toasts"
-        :key="toast.id"
-        :accent-color="toast.accentColor"
-        :icon="toast.icon"
-        class="mt-2 toast-transition-item"
-        @close="removeToast(toast)"
-        @action="toast.action?.onClick()"
-      >
-        <template #title>
-          {{ toast.title }}
-        </template>
-
-        <template #message>
-          {{ toast.message }}
-        </template>
-
-        <template
-          v-if="toast.action"
-          #action
-        >
-          {{ toast.action?.label }}
-        </template>
-      </AppToast>
-    </TransitionGroup>
-  </div>
+  <Transition
+    name="toast-transition"
+    mode="out-in"
+  >
+    <div
+      v-if="showToast"
+      :key="toast.id"
+      class="-translate-x-1/2
+        bg-primary-inverted
+        bottom-6
+        fixed
+        left-1/2
+        px-2.5
+        py-2
+        rounded
+        text-primary-inverted
+        text-sm
+        z-20"
+    >
+      {{ toast.message }}
+    </div>
+  </Transition>
 </template>
 
-  <style scoped lang="scss">
-  .toast-transition-item {
-    transition: transform 0.8s cubic-bezier(0.17, 0.67, 0.16, 0.99), 0.3s opacity;
+<style scoped lang="scss">
+.toast-transition {
+  &-enter-active,
+  &-leave-active {
+    transition: 0.3s
   }
 
-  .toast-transition-to-right-enter-from,
-  .toast-transition-to-right-leave-to,
-  .toast-transition-to-bottom-enter-from,
-  .toast-transition-to-bottom-leave-to {
+  &-enter-from,
+  &-leave-to {
     opacity: 0;
   }
 
-  .toast-transition-to-bottom-enter-from,
-  .toast-transition-to-right-enter-from {
-    transform: translateX(60px);
+  &-enter-from {
+    transform: translate(-50%, 70%);
   }
-
-  .toast-transition-to-bottom-leave-to {
-    transform: translateY(-30px);
-  }
-  .toast-transition-to-right-leave-to {
-    transform: translateX(400px);
-  }
-
-  .toast-transition-to-bottom-leave-active {
-    position: absolute;
-    width: 100%;
-    z-index: 10 !important;
-  }
-  </style>
+}
+</style>

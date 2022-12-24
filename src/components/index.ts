@@ -24,6 +24,8 @@ export { default as AppModalWrapper } from './app-modal/AppModalWrapper.vue'
 export { default as useAppModal } from './app-modal/useAppModal'
 export type { Props as AppModalProps } from './app-modal/useAppModal'
 
+export { default as AppNotifications } from './app-notifications/AppNotifications.vue'
+
 export { default as AppPopover } from './app-popover/AppPopover.vue'
 
 export { default as AppTable } from './app-table/AppTable.vue'

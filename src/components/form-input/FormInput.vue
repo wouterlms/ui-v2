@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import type { Rounded } from '../../types'
 import type { Props as BaseProps } from './useFormInput'
 
 import useFormInput from './useFormInput'
-import type { Rounded } from '@/types'
 
 import {
   useBorderRadius,

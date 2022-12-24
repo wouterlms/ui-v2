@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { useIsMobileDevice } from '@wouterlms/composables'
 import { Icon } from '@wouterlms/icons'
 
+import type { Rounded } from '../../types'
 import AppModalOverlay from './AppModalOverlay.vue'
 
 import type { Props as BaseProps } from './useAppModal'
 import useAppModal from './useAppModal'
-import type { Rounded } from '@/types'
 
 import { useBorderRadius } from '@/composables'
 
@@ -45,8 +44,6 @@ const {
   close,
 } = useAppModal()
 
-const isMobileDevice = useIsMobileDevice()
-
 const handleOverlayClicked = (): void => {
   if (props.closeOnClickOutside)
     close()
@@ -61,7 +58,7 @@ export default {
 
 <template>
   <Component :is="modalWrapper">
-    <Transition :name="isMobileDevice ? 'mobile-transition' : 'pc-transition'">
+    <Transition name="modal-transition">
       <div
         v-if="state.isVisible"
         v-bind="$attrs"
@@ -80,6 +77,8 @@ export default {
         top-1/2
         z-20"
       >
+        <slot :close="close" />
+
         <AppFocusable
           v-if="showCloseButton"
           type="button"
@@ -91,8 +90,6 @@ export default {
             class="text-secondary w-3"
           />
         </AppFocusable>
-
-        <slot :close="close" />
       </div>
     </Transition>
 
@@ -123,7 +120,7 @@ export default {
   }
 }
 
-.pc-transition {
+.modal-transition {
   &-enter-active,
   &-leave-active {
     transition: 0.3s cubic-bezier(0.22, 0.68, 0, 1.51);
@@ -133,19 +130,6 @@ export default {
   &-leave-to {
     opacity: 0;
     transform: translate(-50%, -50%) scale(1.1) !important;
-  }
-}
-
-.mobile-transition {
-  &-enter-active,
-  &-leave-active {
-    transition: 0.3s ease;
-  }
-
-  &-enter-from,
-  &-leave-to {
-    opacity: 0;
-    transform: translate(-50%, -20%) !important;
   }
 }
 </style>

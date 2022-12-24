@@ -1,18 +1,11 @@
 <script setup lang="ts">
 export interface Props {
   grid: string
-  border?: boolean
-  maxWidth?: string
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  border: true,
-  maxWidth: '100%',
-})
+const props = withDefaults(defineProps<Props>(), {})
 
-provide('grid', props.grid)
-provide('border', props.border)
-provide('maxWidth', props.maxWidth)
+provide('grid', computed(() => props.grid))
 </script>
 
 <script lang="ts">

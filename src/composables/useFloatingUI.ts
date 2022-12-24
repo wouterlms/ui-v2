@@ -74,17 +74,17 @@ const useFloatingUI: UseFloatingUI = (
       }),
     ]
 
-    if ((arrowEl?.value ?? null) !== null) {
-      middleware.push(arrowMiddleware({
-        element: arrowEl!.value!,
-      }))
-    }
-
     if (container !== undefined) {
       middleware.push(shift({
         boundary: container,
         padding: containerPadding,
         crossAxis: true,
+      }))
+    }
+
+    if ((arrowEl?.value ?? null) !== null) {
+      middleware.push(arrowMiddleware({
+        element: arrowEl!.value!,
       }))
     }
 
@@ -113,9 +113,9 @@ const useFloatingUI: UseFloatingUI = (
     } = await computePosition(
       referenceEl.value!,
       floatingEl.value!, {
-        middleware: getMiddleware(),
-        placement: (position ?? CSSPosition.BOTTOM),
-      },
+      middleware: getMiddleware(),
+      placement: (position ?? CSSPosition.BOTTOM),
+    },
     )
 
     actualPosition.value = getPosition(placement)

@@ -9,13 +9,19 @@ export interface Props {
    * Retains inline colors
    */
   preserveOriginalColor?: boolean
+
+  /**
+   * Secondary color
+   */
+  secondaryColor?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
   preserveOriginalColor: false,
+  secondaryColor: 'transparent',
 })
 
-const removeColors = (path: string): string => {
+const removeHexColors = (path: string): string => {
   let pathWithoutHexCodes = path
 
   const hexColors = path.match(/#[a-fA-F0-9]{6}|#[a-fA-F0-9]{3}/g) || []
@@ -23,9 +29,6 @@ const removeColors = (path: string): string => {
   hexColors.forEach((hex) => {
     pathWithoutHexCodes = pathWithoutHexCodes.replace(hex, 'currentColor')
   })
-
-  pathWithoutHexCodes = pathWithoutHexCodes.replaceAll('black', 'currentColor')
-  pathWithoutHexCodes = pathWithoutHexCodes.replaceAll('white', 'currentColor')
 
   return pathWithoutHexCodes
 }
@@ -55,9 +58,13 @@ const paths = computed(() => {
   if (props.preserveOriginalColor)
     return svgContent
 
-  const pathWithoutColors = removeColors(svgContent)
+  let pathWithoutHexColors = removeHexColors(svgContent)
 
-  return pathWithoutColors
+  pathWithoutHexColors = pathWithoutHexColors
+    .replaceAll('black', 'currentColor')
+    .replaceAll('white', props.secondaryColor)
+
+  return pathWithoutHexColors
 })
 </script>
 

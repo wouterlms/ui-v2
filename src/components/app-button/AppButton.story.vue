@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { logEvent } from 'histoire/client'
 import { AppButton } from '..'
-import type { ButtonVariant, Rounded } from '@/types'
+import type { ButtonVariant, Rounded } from '../../types'
 
 const state = ref({
   content: 'Clickable element',

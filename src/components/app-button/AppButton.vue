@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { ButtonVariant, Rounded } from '../../types'
 import type { Props as BaseProps } from './useAppButton'
 import useAppButton from './useAppButton'
-import type { ButtonVariant, Rounded } from '@/types'
 
 import { colors } from '@/theme'
 
@@ -200,6 +200,7 @@ const hasExplicitWidth = computed(
           <div v-else-if="iconLeft">
             <AppIcon
               :icon="iconLeft"
+              :secondary-color="backgroundColor"
               :style="{
                 width: iconSize,
                 marginRight: !!$slots.default ? iconSpacing : undefined,
@@ -216,6 +217,7 @@ const hasExplicitWidth = computed(
       <AppIcon
         v-if="iconRight"
         :icon="iconRight"
+        :secondary-color="backgroundColor"
         :style="{
           width: iconSize,
           marginLeft: !!$slots.default ? iconSpacing : undefined,

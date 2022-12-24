@@ -1,46 +1,39 @@
 import { ref } from 'vue'
 
 interface Toast {
-  id: number
-  title: string
+  id?: string
   message: string
-  timeout?: number
-  icon?: string
-  accentColor?: string
-  action?: {
-    label: string
-    onClick: () => void
-  }
 }
 
 const toasts = ref<Toast[]>([])
+const toast = computed(() => toasts.value[0] ?? null)
+
+let timeout: ReturnType<typeof setTimeout> | null = null
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default () => {
-  const removeToast = (toast: Toast): void => {
-    toasts.value = toasts.value.filter((t) => t.id !== toast.id)
+  const setRemoveToastTimeout = (): void => {
+    timeout = setTimeout(() => {
+      toasts.value.shift()
+      timeout = null
+
+      if (toasts.value.length > 0)
+        setRemoveToastTimeout()
+    }, 5000)
   }
 
-  const createToast = (toast: Omit<Toast, 'id'>): Toast => {
-    const t = {
+  const showToastMessage = (toast: Omit<Toast, 'id'>): void => {
+    toasts.value.push({
       ...toast,
-      id: Date.now(),
-    }
+      id: Math.random().toString(36),
+    })
 
-    toasts.value.push(t)
-
-    if (t.timeout !== undefined) {
-      setTimeout(() => {
-        removeToast(t)
-      }, t.timeout)
-    }
-
-    return t
+    if (timeout === null)
+      setRemoveToastTimeout()
   }
 
   return {
-    toasts,
-    createToast,
-    removeToast,
+    toast,
+    showToastMessage,
   }
 }

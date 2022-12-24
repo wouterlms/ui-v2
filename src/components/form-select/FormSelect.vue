@@ -4,11 +4,10 @@ import type { Placement } from '@floating-ui/dom'
 
 import AppFocusable from '../app-focusable/AppFocusable.vue'
 
+import type { Rounded } from '../../types'
 import { useBorderRadius, useFloatingUI } from '@/composables'
 
 import { clickOutside as vClickOutside } from '@/directives'
-
-import type { Rounded } from '@/types'
 
 export interface Props {
   modelValue: unknown

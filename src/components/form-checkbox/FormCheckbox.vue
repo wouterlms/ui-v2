@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Icon } from '@wouterlms/icons'
 
+import type { Rounded } from '../../types'
 import type { Props as BaseProps } from './useFormCheckbox'
 import useFormCheckbox from './useFormCheckbox'
-import type { Rounded } from '@/types'
 
 import {
   useBorderRadius,

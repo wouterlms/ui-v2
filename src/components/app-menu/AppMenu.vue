@@ -2,6 +2,7 @@
 import { useEventListener } from '@wouterlms/composables'
 import type { Placement } from '@floating-ui/dom'
 
+import type { Rounded } from '../../types'
 import {
   useBorderRadius,
   useFloatingUI,
@@ -9,8 +10,6 @@ import {
 } from '@/composables'
 
 import { clickOutside as vClickOutside } from '@/directives'
-
-import type { Rounded } from '@/types'
 
 export interface Props {
   position?: Placement
@@ -211,41 +210,42 @@ provide('activeDescendantId', activeDescendantId)
   <div ref="container">
     <slot />
 
-    <div
-      v-if="isMenuVisible"
-      ref="menu"
-      v-click-outside="() => isMenuVisible = false"
-      :aria-activedescendant="activeDescendantId ?? undefined"
-      :style="{
-        [actualPosition]: 'auto',
-        top: `${positionY}px`,
-        left: `${positionX}px`,
-        width: inheritWidth ? `${width}px` : undefined,
-        borderRadius: useBorderRadius(),
-      }"
-      role="menu"
-      tabindex="0"
-      class="absolute bg-primary flex flex-col outline-none shadow-primary"
-    >
+    <Transition name="menu">
       <div
-        v-show="showArrow"
-        ref="arrow"
+        v-if="isMenuVisible"
+        ref="menu"
+        v-click-outside="() => isMenuVisible = false"
+        :aria-activedescendant="activeDescendantId ?? undefined"
         :style="{
-          left: arrowPositionX !== null ? `${arrowPositionX}px` : '',
-          top: arrowPositionY !== null ? `${arrowPositionY}px` : '',
-          right: '',
-          bottom: '',
-          [actualPosition]: '-4px',
-        }"
-        class="absolute bg-primary h-3 rotate-45 rounded-sm shadow-primary w-3"
-      />
-
-      <div
-        ref="menuScrollContainer"
-        :style="{
+          [actualPosition]: 'auto',
+          top: `${positionY}px`,
+          left: `${positionX}px`,
+          width: inheritWidth ? `${width}px` : undefined,
           borderRadius: useBorderRadius(),
         }"
-        class="bg-primary
+        role="menu"
+        tabindex="0"
+        class="absolute bg-primary flex flex-col outline-none shadow-primary"
+      >
+        <div
+          v-show="showArrow"
+          ref="arrow"
+          :style="{
+            left: arrowPositionX !== null ? `${arrowPositionX}px` : '',
+            top: arrowPositionY !== null ? `${arrowPositionY}px` : '',
+            right: '',
+            bottom: '',
+            [actualPosition]: '-4px',
+          }"
+          class="absolute bg-primary h-3 rotate-45 rounded-sm shadow-primary w-3"
+        />
+
+        <div
+          ref="menuScrollContainer"
+          :style="{
+            borderRadius: useBorderRadius(),
+          }"
+          class="bg-primary
           flex
           flex-col
           h-full
@@ -257,9 +257,24 @@ provide('activeDescendantId', activeDescendantId)
           top-0
           w-full
           z-[1]"
-      >
-        <slot name="menu" />
+        >
+          <slot name="menu" />
+        </div>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>
+
+<style scoped lang="scss">
+.menu {
+  &-enter-active,
+  &-leave-active {
+    transition: opacity 0.1s;
+  }
+
+  &-enter-from,
+  &-leave-to {
+    opacity: 0;
+  }
+}
+</style>

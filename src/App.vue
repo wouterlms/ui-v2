@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useToasts } from './composables'
 import { createTheme } from '@/theme'
 
 createTheme({
@@ -6,91 +7,31 @@ createTheme({
   enableDarkMode: true,
 })
 
-const showModal = ref(false)
+const { showToastMessage } = useToasts()
 
-const showExtra = ref(false)
-
-setTimeout(() => {
-  showExtra.value = true
-}, 2000)
-
-const handleClick = (): void => {
-  console.log('click')
+const add = () => {
+  showToastMessage({
+    message: 'Project created successfully!',
+  })
 }
-
-const value = ref(null)
 </script>
 
 <template>
   <div class="p-24">
-    <div class="h-screen" />
-    <!--
-      <AppPopover :inherit-width="true">
-      <AppFocusable>Focus Me</AppFocusable>
-
-      <template #popover="{ close }">
-      <div class="flex flex-col p-2">
-      <a href="##" @click="close">Item 1</a>
-      <a href="##">Item 2</a>
-      <a href="##">Item 3</a>
-      </div>
-      </template>
-      </AppPopover>
-    -->
-
-    {{ value }}
-
-    <FormSelect v-model="value">
-      <FormSelectOption :value="{ userName: 'Wouter' }">
-        Option A
-      </FormSelectOption>
-
-      <FormSelectOption :value="{ userName: 'Wouter qkjdqlksjq' }">
-        Option B
-      </FormSelectOption>
-
-      <FormSelectOption :value="{ userName: 'Wouter qlskdjqksdqksjqs' }">
-        Option C
-      </FormSelectOption>
-    </FormSelect>
-
-    <AppMenu :inherit-width="true">
-      <AppFocusable class="w-52">
+    <AppPopover :container-padding="20">
+      <AppButton @click="add">
         Focus Me
-      </AppFocusable>
+      </AppButton>
 
-      <template #menu>
-        <div class="w-80">
-          <AppMenuItem
-            @click="handleClick"
-          >
-            Item 1
-          </AppMenuItem>
-          <AppMenuItem>Item 2</AppMenuItem>
-          <AppMenuItem>Item 3</AppMenuItem>
-
-          <AppMenuItem>Item 4</AppMenuItem>
-
-          <AppMenuDivider />
-
-          <AppMenuItem>Item 5</AppMenuItem>
-          <AppMenuItem>Item 6</AppMenuItem>
-
-          qdkjqkljqsjlkqskjlqs
-
-          <AppMenuItem>Item 7</AppMenuItem>
-          <AppMenuItem>Item 8</AppMenuItem>
-
-          <AppMenuItem>Item 9</AppMenuItem>
-          <AppMenuItem>Item 10</AppMenuItem>
+      <template #popover>
+        <div class="max-w-xs p-2 text-sm">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio ut nisi molestiae, aut nulla cum.
         </div>
       </template>
-    </AppMenu>
-
-    <AppFocusable>Should close when this is focused</AppFocusable>
-
-    <div class="h-screen" />
+    </AppPopover>
   </div>
+
+  <AppToasts />
 </template>
 
 <style>
